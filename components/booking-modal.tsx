@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -11,10 +11,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent } from "@/components/ui/card"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { useToast } from "@/components/ui/use-toast"
-import { Calendar, Clock } from "lucide-react"
-import { Badge } from "./ui/badge"
-import { Switch } from "./ui/switch"
-import { RefreshCw } from "lucide-react"
+import { Calendar, Clock, RefreshCw, Zap } from "lucide-react"
+import { SkillSwapFlow } from "@/components/skill-swap-flow"
 
 interface Slot {
   id: string;
@@ -40,13 +38,35 @@ type BookingModalProps = {
 }
 
 export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess }: BookingModalProps) {
+  const CREDIT_COST = 50
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null)
   const [notes, setNotes] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [isSkillSwap, setIsSkillSwap] = useState(false)
+  const [bookingMode, setBookingMode] = useState<"swap" | "credits">("credits")
   const [selectedSeekerSkill, setSelectedSeekerSkill] = useState<string | null>(null)
+  const [showSkillSwapFlow, setShowSkillSwapFlow] = useState(false)
   const { toast } = useToast()
   const supabase = createClientComponentClient()
+
+  const providerSeekerSkills = provider.skills?.filter((skill: Skill) => skill.intent === "seeker") || []
+  const seekerOfferSkills = currentUser?.skills?.filter((skill: Skill) => skill.intent === "provider") || []
+  const swapMatchSkills = seekerOfferSkills.filter((userSkill: Skill) =>
+    providerSeekerSkills.some(
+      (seekSkill: Skill) =>
+        seekSkill.skill_name.toLowerCase() === userSkill.skill_name.toLowerCase() ||
+        seekSkill.category === userSkill.category
+    )
+  )
+  const directSwapAvailable = provider.skill_swap && swapMatchSkills.length > 0
+
+  useEffect(() => {
+    if (!provider || !currentUser) return
+    if (directSwapAvailable) {
+      setBookingMode("swap")
+    } else {
+      setBookingMode("credits")
+    }
+  }, [provider, currentUser, directSwapAvailable])
 
   // Filter available slots and sort them by date and time
   const availableSlots = (provider.availability_slots?.filter((slot: Slot) => slot.is_available) || [])
@@ -68,6 +88,9 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
       return
     }
 
+    const isSkillSwap = bookingMode === "swap"
+    const isCreditBooking = bookingMode === "credits"
+
     if (isSkillSwap && !selectedSeekerSkill) {
       toast({
         title: "Error",
@@ -77,16 +100,24 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
       return
     }
 
+    if (isCreditBooking && currentUser?.wallet_balance < CREDIT_COST) {
+      toast({
+        title: "Insufficient credits",
+        description: "You need more credits to use this booking option.",
+        variant: "destructive",
+      })
+      return
+    }
+
     setIsLoading(true)
 
     try {
       const selectedSlotData = availableSlots.find((slot: Slot) => slot.id === selectedSlot)
-      
+
       if (!selectedSlotData) {
         throw new Error("Selected time slot not found")
       }
 
-      // Create the booking
       const { data: bookingData, error: bookingError } = await supabase
         .from('bookings')
         .insert([{
@@ -99,7 +130,7 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
           service_name: provider.skills?.[0]?.skill_name || "Skill Service",
           notes: notes,
           status: "pending",
-          payment_status: isSkillSwap ? "not_required" : "pending",
+          payment_status: isSkillSwap ? "not_required" : isCreditBooking ? "paid" : "pending",
           is_skill_swap: isSkillSwap,
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString()
@@ -114,7 +145,6 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
 
       if (bookingError) throw bookingError
 
-      // If this is a skill swap, create the skill swap agreement
       if (isSkillSwap && selectedSeekerSkill) {
         const { error: swapError } = await supabase
           .from('skill_swap_agreements')
@@ -129,7 +159,45 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
         if (swapError) throw swapError
       }
 
-      // Mark the slot as unavailable
+      if (isCreditBooking) {
+        const { error: deductError } = await supabase
+          .from('credits_wallet')
+          .update({
+            balance: currentUser.wallet_balance - CREDIT_COST,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('user_id', currentUser.id)
+
+        if (deductError) throw deductError
+
+        const { error: providerWalletError } = await supabase
+          .from('credits_wallet')
+          .update({ updated_at: new Date().toISOString() })
+          .eq('user_id', provider.id)
+          .increment('balance', CREDIT_COST)
+          .increment('total_earned', CREDIT_COST)
+
+        if (providerWalletError) {
+          console.warn('Provider wallet update failed:', providerWalletError)
+        }
+
+        const { error: transactionError } = await supabase
+          .from('transactions')
+          .insert([{
+            sender_id: currentUser.id,
+            receiver_id: provider.id,
+            amount: CREDIT_COST,
+            type: 'learning',
+            reference_id: bookingData.id,
+            description: `Credits payment for ${bookingData.service_name}`,
+            created_at: new Date().toISOString(),
+          }])
+
+        if (transactionError) {
+          console.warn('Transaction creation failed:', transactionError)
+        }
+      }
+
       const { error: slotError } = await supabase
         .from('availability_slots')
         .update({ is_available: false })
@@ -137,7 +205,6 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
 
       if (slotError) throw slotError
 
-      // Send notification to the provider
       const { error: notificationError } = await supabase
         .from('notifications')
         .insert([{
@@ -147,10 +214,10 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
           message: isSkillSwap
             ? `${currentUser.name} has requested to swap their ${currentUser.skills?.find((s: Skill) => s.id === selectedSeekerSkill)?.skill_name} for your ${provider.skills?.[0]?.skill_name}`
             : `${currentUser.name} has requested to book a session for ${provider.skills?.[0]?.skill_name}`,
-          data: { 
+          data: {
             booking_id: bookingData.id,
             is_skill_swap: isSkillSwap,
-            swap_skill_id: selectedSeekerSkill
+            swap_skill_id: selectedSeekerSkill,
           }
         }])
 
@@ -160,12 +227,13 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
 
       toast({
         title: "Success!",
-        description: isSkillSwap 
+        description: isSkillSwap
           ? "Your skill swap request has been sent to the provider."
+          : isCreditBooking
+          ? "Your credits payment has been applied and the booking request is now pending provider confirmation."
           : "Your booking request has been sent to the provider.",
       })
 
-      // Call the success callback with the booking data
       if (onSuccess) {
         onSuccess(bookingData)
       }
@@ -184,16 +252,37 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px]">
-        <DialogHeader>
-          <DialogTitle>Book a Session with {provider.name}</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4 py-4">
-            <div className="space-y-2">
-              <Label>Select a Time Slot</Label>
-              {availableSlots.length > 0 ? (
+    <>
+      {showSkillSwapFlow && (
+        <SkillSwapFlow
+          providerId={provider.id}
+          providerName={provider.name}
+          providerSkill={provider.skills?.[0]?.skill_name || "Skill"}
+          tokenCost={CREDIT_COST}
+          onClose={() => {
+            setShowSkillSwapFlow(false)
+            onClose()
+          }}
+          onSwapComplete={() => {
+            setShowSkillSwapFlow(false)
+            onClose()
+            if (onSuccess) {
+              onSuccess(null)
+            }
+          }}
+        />
+      )}
+      
+      <Dialog open={isOpen && !showSkillSwapFlow} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Book a Session with {provider.name}</DialogTitle>
+          </DialogHeader>
+          <form onSubmit={handleSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="space-y-2">
+                <Label>Select a Time Slot</Label>
+                {availableSlots.length > 0 ? (
                 <RadioGroup value={selectedSlot || ""} onValueChange={setSelectedSlot}>
                   <div className="grid grid-cols-1 gap-2">
                     {availableSlots.map((slot: Slot) => (
@@ -231,24 +320,49 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
               )}
             </div>
 
-            <div className="space-y-2">
-              {provider.skill_swap && currentUser.skills?.length > 0 && (
-                <div className="flex items-center justify-between p-4 border rounded-md">
-                  <div className="flex items-center space-x-2">
-                    <RefreshCw className="h-5 w-5 text-purple-600" />
-                    <div>
-                      <h4 className="font-medium">Skill Swap Available</h4>
-                      <p className="text-sm text-gray-500">Exchange your skills instead of paying</p>
-                    </div>
-                  </div>
-                  <Switch
-                    checked={isSkillSwap}
-                    onCheckedChange={setIsSkillSwap}
-                  />
+            <div className="space-y-3">
+              <div>
+                <Label>Choose Booking Option</Label>
+                <div className="mt-2 grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    className={`rounded-xl border px-4 py-3 text-sm font-medium transition ${
+                      bookingMode === "swap"
+                        ? "border-purple-600 bg-purple-50 text-purple-800"
+                        : "border-gray-300 bg-white text-gray-700 hover:border-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                    }`}
+                    onClick={() => setShowSkillSwapFlow(true)}
+                  >
+                    <Zap className="h-4 w-4 inline mr-2" />
+                    Guided Skill Swap
+                  </button>
+                  <button
+                    type="button"
+                    className={`rounded-xl border px-4 py-3 text-sm font-medium transition ${
+                      bookingMode === "credits"
+                        ? "border-emerald-600 bg-emerald-50 text-emerald-800"
+                        : "border-gray-300 bg-white text-gray-700 hover:border-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+                    }`}
+                    onClick={() => setBookingMode("credits")}
+                  >
+                    Use Credits
+                  </button>
                 </div>
-              )}
+              </div>
 
-              {isSkillSwap && (
+              <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
+                {bookingMode === "credits" ? (
+                  <p>
+                    Use your credits to book this skill. You have the flexibility to learn at your own pace.
+                  </p>
+                ) : (
+                  <p>
+                    Try our interactive Skill Swap Flow to find matches, check availability, and connect directly with {provider.name}.
+                  </p>
+                )}
+              </div>
+
+              {bookingMode === "swap" && currentUser.skills?.length > 0 && (
                 <div className="space-y-2">
                   <Label>Select Your Skill to Swap</Label>
                   <div className="grid grid-cols-2 gap-2">
@@ -270,6 +384,25 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
                       ))}
                   </div>
                 </div>
+              )}
+
+              {bookingMode === "credits" && (
+                <Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h4 className="font-medium">Pay with Credits</h4>
+                        <p className="text-sm text-gray-500">Spend credits immediately and reserve your session.</p>
+                      </div>
+                      <div className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-300">
+                        {CREDIT_COST} credits
+                      </div>
+                    </div>
+                    <p className="mt-3 text-sm text-gray-500">
+                      You have <span className="font-semibold text-gray-800 dark:text-gray-100">{currentUser?.wallet_balance ?? 0}</span> credits available.
+                    </p>
+                  </CardContent>
+                </Card>
               )}
             </div>
 
@@ -306,7 +439,11 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
                   </div>
                   <div className="flex justify-between font-medium">
                     <span>Total:</span>
-                    <span>$50.00</span>
+                    <span className="text-gray-900 dark:text-gray-100">
+                      {bookingMode === "swap"
+                        ? "Free (Skill Exchange)"
+                        : `${CREDIT_COST} credits`}
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -318,14 +455,16 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
             </Button>
             <Button
               type="submit"
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+              className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
               disabled={!selectedSlot || isLoading}
             >
               {isLoading ? "Processing..." : "Confirm Booking"}
             </Button>
           </DialogFooter>
         </form>
-      </DialogContent>
-    </Dialog>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }
+

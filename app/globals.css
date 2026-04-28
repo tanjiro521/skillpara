@@ -49,20 +49,20 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    --background: 222 47% 11%; /* #0f172a - Slate 900 */
+    --foreground: 210 40% 98%; /* #f8fafc */
+    --card: 222 47% 15%; /* slightly lighter slate */
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 243 75% 59%; /* #4f46e5 - Indigo 600 */
+    --primary-foreground: 210 40% 98%;
+    --secondary: 189 94% 43%; /* #06b6d4 - Cyan 500 */
+    --secondary-foreground: 222 47% 11%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 189 94% 43%;
+    --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 14.9%;
@@ -87,8 +87,27 @@ body {
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
+  html,
   body {
     @apply bg-background text-foreground;
+    min-height: 100%;
+  }
+
+  html {
+    background-color: hsl(var(--background));
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+  
+  .glass-card {
+    background: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   }
 }

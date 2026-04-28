@@ -22,6 +22,12 @@ type SkillSwapModalProps = {
   onClose: () => void
 }
 
+type UserSkill = {
+  id: string
+  skill_name: string
+  category: string
+}
+
 export function SkillSwapModal({ provider, currentUser, isOpen, onClose }: SkillSwapModalProps) {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null)
   const [message, setMessage] = useState("")
@@ -32,7 +38,7 @@ export function SkillSwapModal({ provider, currentUser, isOpen, onClose }: Skill
   const [swapDetails, setSwapDetails] = useState<any>(null)
 
   // Get current user's skills that can be offered
-  const userSkills = currentUser?.skills || [
+  const userSkills: UserSkill[] = currentUser?.skills || [
     { id: "skill-1", skill_name: "Web Development", category: "Technology" },
     { id: "skill-2", skill_name: "Graphic Design", category: "Design" },
     { id: "skill-3", skill_name: "English Tutoring", category: "Languages" },
@@ -77,7 +83,7 @@ export function SkillSwapModal({ provider, currentUser, isOpen, onClose }: Skill
           user_id: provider.id,
           type: 'skill_swap_request',
           title: 'New Skill Swap Request',
-          message: `${currentUser.name} wants to swap their ${userSkills.find(s => s.id === selectedSkill)?.skill_name} for your ${provider.skills?.[0]?.skill_name}`,
+          message: `${currentUser.name} wants to swap their ${userSkills.find((s: UserSkill) => s.id === selectedSkill)?.skill_name} for your ${provider.skills?.[0]?.skill_name}`,
           data: {
             swap_agreement_id: swapData.id,
             proposer_skill_id: selectedSkill,
@@ -193,7 +199,7 @@ export function SkillSwapModal({ provider, currentUser, isOpen, onClose }: Skill
               </Button>
               <Button
                 type="submit"
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
                 disabled={!selectedSkill || isLoading}
               >
                 {isLoading ? (
@@ -259,7 +265,7 @@ export function SkillSwapModal({ provider, currentUser, isOpen, onClose }: Skill
                   setShowConfirmation(false)
                   onClose()
                 }}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600"
+                className="w-full bg-gradient-to-r from-maroon to-olive"
               >
                 Got it!
               </Button>
@@ -270,3 +276,4 @@ export function SkillSwapModal({ provider, currentUser, isOpen, onClose }: Skill
     </>
   )
 }
+

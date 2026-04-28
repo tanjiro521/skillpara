@@ -53,6 +53,29 @@ export interface Database {
           updated_at?: string | null
         }
       }
+      credits_wallet: {
+        Row: {
+          user_id: string
+          balance: number
+          total_earned: number
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Insert: {
+          user_id: string
+          balance?: number
+          total_earned?: number
+          created_at?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          user_id?: string
+          balance?: number
+          total_earned?: number
+          created_at?: string | null
+          updated_at?: string | null
+        }
+      }
       skills: {
         Row: {
           id: string

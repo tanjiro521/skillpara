@@ -72,16 +72,20 @@ export function ProviderCard({ provider }: ProviderCardProps) {
               </p>
             </div>
 
-            <div className="mt-auto flex items-center justify-between">
-              {provider.skill_swap && (
-                <Badge variant="outline" className="border-green-300 dark:border-green-800 text-green-700 dark:text-green-400 flex items-center">
-                  <RefreshCw className="mr-1 h-3 w-3" /> Open to Skill Swap
-                </Badge>
-              )}
+            <div className="mt-auto flex items-center justify-between gap-3">
+              <Badge variant="outline" className={`flex items-center ${provider.skill_swap ? "border-green-300 text-green-700 dark:border-green-800 dark:text-green-400" : "border-slate-300 text-slate-700 dark:border-slate-700 dark:text-slate-300"}`}>
+                {provider.skill_swap ? (
+                  <>
+                    <RefreshCw className="mr-1 h-3 w-3" /> Swap Available
+                  </>
+                ) : (
+                  "Use Credits"
+                )}
+              </Badge>
 
               <Button
                 onClick={() => router.push(`/provider/${provider.id}`)}
-                className="ml-auto bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500"
+                className="ml-auto bg-gradient-to-r from-maroon to-olive hover:from-maroon hover:to-olive dark:from-maroon dark:to-olive"
               >
                 View Profile
               </Button>
@@ -92,3 +96,4 @@ export function ProviderCard({ provider }: ProviderCardProps) {
     </Card>
   )
 }
+

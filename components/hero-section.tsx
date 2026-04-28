@@ -187,7 +187,7 @@ export function HeroSection() {
           {Array.from({ length: 20 }).map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 rounded-full transition-colors duration-500"
+              className="absolute w-2 h-2 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive rounded-full transition-colors duration-500"
               style={{
                 top: `${Math.random() * 100}%`, 
                 left: `${Math.random() * 100}%`,
@@ -211,7 +211,7 @@ export function HeroSection() {
           <motion.div
             initial="hidden"
             animate={controls}
-            variants={textVariants}
+            variants={textVariants as any}
             className="text-center lg:text-left"
           >
             <h1 
@@ -219,7 +219,7 @@ export function HeroSection() {
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-gray-800 dark:text-white transition-colors duration-300"
             >
               Connect with{" "}
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent relative transition-colors duration-300">
+              <span className="bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent relative transition-colors duration-300">
                 local skills
                 <motion.div
                   className="absolute -right-8 -top-8"
@@ -233,7 +233,7 @@ export function HeroSection() {
             </h1>
             
             <motion.p 
-              variants={letterVariants}
+              variants={letterVariants as any}
               className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-lg mx-auto lg:mx-0 transition-colors duration-300"
             >
               Find skilled people nearby or share your expertise with others. Exchange knowledge, learn new skills, and
@@ -292,7 +292,7 @@ export function HeroSection() {
                 >
                   <Button
                     type="submit"
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
                     Search
                   </Button>
@@ -303,7 +303,7 @@ export function HeroSection() {
             {/* Popular search terms section */}
             <motion.div 
               className="flex flex-wrap justify-center lg:justify-start gap-2 text-sm text-gray-500 dark:text-gray-400 transition-colors duration-300"
-              variants={letterVariants}
+              variants={letterVariants as any}
             >
               <motion.span
                 animate={{ 
@@ -401,7 +401,7 @@ export function HeroSection() {
               </motion.div>
               
               <motion.div
-                className="absolute top-1/4 -right-6 bg-gradient-to-br from-purple-500 to-blue-500 dark:from-purple-600 dark:to-blue-600 p-3 rounded-full shadow-lg transition-colors duration-300"
+                className="absolute top-1/4 -right-6 bg-gradient-to-br from-maroon to-olive dark:from-purple-600 dark:to-blue-600 p-3 rounded-full shadow-lg transition-colors duration-300"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 1.4, type: "spring" }}
@@ -422,7 +422,7 @@ export function HeroSection() {
               ref={testimonial1Ref}
               className="absolute -bottom-6 -left-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 transition-colors duration-300"
               whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              variants={bubbleVariants}
+              variants={bubbleVariants as any}
               animate="float"
             >
               <div className="flex items-center space-x-3">
@@ -454,7 +454,7 @@ export function HeroSection() {
               ref={testimonial2Ref}
               className="absolute -top-6 -right-6 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 transition-colors duration-300"
               whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
-              variants={bubbleVariants}
+              variants={bubbleVariants as any}
               animate="float"
               transition={{
                 duration: 4,
@@ -490,7 +490,7 @@ export function HeroSection() {
             
             {/* Added stat highlight */}
             <motion.div
-              className="absolute bottom-14 right-6 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-500 p-3 rounded-lg shadow-lg transition-colors duration-300 text-white"
+              className="absolute bottom-14 right-6 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive p-3 rounded-lg shadow-lg transition-colors duration-300 text-white"
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.6, type: "spring" }}
@@ -503,3 +503,4 @@ export function HeroSection() {
     </section>
   )
 }
+

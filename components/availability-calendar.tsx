@@ -415,3 +415,4 @@ export function AvailabilityCalendar({ user }: AvailabilityCalendarProps) {
     </div>
   )
 }
+

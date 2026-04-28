@@ -108,7 +108,7 @@ export function NotificationsList({ notifications, onMarkAsRead }: Notifications
   return (
     <AnimatePresence>
       <motion.div
-        variants={listVariants}
+        variants={listVariants as any}
         initial="hidden"
         animate="visible"
         className="space-y-4"
@@ -117,7 +117,7 @@ export function NotificationsList({ notifications, onMarkAsRead }: Notifications
           notifications.map((notification) => (
             <motion.div 
               key={notification.id} 
-              variants={itemVariants}
+              variants={itemVariants as any}
               initial="hidden"
               animate="visible"
               exit="exit"

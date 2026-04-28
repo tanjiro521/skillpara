@@ -57,8 +57,6 @@ export async function POST(request: Request) {
           }, { status: 500 });
         }
         
-        console.log("Setting public access policy for bucket");
-        await serviceClient.storage.from(bucketName).setPublic(true);
       }
     } catch (error) {
       console.error("Error with bucket operation:", error);
@@ -82,8 +80,7 @@ export async function POST(request: Request) {
       console.error("Upload error:", uploadError);
       return NextResponse.json({ 
         error: "Failed to upload file", 
-        details: uploadError.message,
-        code: uploadError.code
+        details: uploadError.message
       }, { status: 500 });
     }
 

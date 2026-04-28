@@ -35,7 +35,7 @@ export function ThemeToggle() {
           className="relative overflow-hidden bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 border-purple-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600 shadow-sm hover:shadow-md transition-all duration-300 group"
         >
           <motion.div 
-            className="absolute inset-0 bg-gradient-to-r from-purple-400/10 to-blue-400/10 dark:from-purple-700/20 dark:to-blue-700/20 opacity-0 group-hover:opacity-100 transition-all duration-300"
+            className="absolute inset-0 bg-gradient-to-r from-maroon/10 to-olive/10 dark:from-purple-700/20 dark:to-blue-700/20 opacity-0 group-hover:opacity-100 transition-all duration-300"
             initial={false}
             animate={{ y: ['-100%', '100%'] }}
             transition={{ 

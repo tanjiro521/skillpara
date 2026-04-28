@@ -143,7 +143,7 @@ export default function ResetPasswordPage() {
               <CardFooter>
                 <Button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  className="w-full bg-gradient-to-r from-maroon to-olive hover:from-maroon hover:to-olive"
                   disabled={isLoading}
                 >
                   {isLoading ? "Resetting password..." : "Reset Password"}

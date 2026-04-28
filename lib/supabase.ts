@@ -2,6 +2,18 @@ import { createClient } from "@supabase/supabase-js";
 import { createBrowserClient } from "@supabase/ssr";
 import { type Database } from "../types/database.types";
 
+type BrowserCookie = {
+  name: string
+  value: string
+  maxAge?: number
+  domain?: string
+  path?: string
+  expires?: Date
+  httpOnly?: boolean
+  secure?: boolean
+  sameSite?: "lax" | "strict" | "none"
+}
+
 // Create a Supabase client for use on the server side with service role
 export const createServerSupabaseClient = () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -39,7 +51,7 @@ export const createBrowserSupabaseClient = () => {
             };
           });
         },
-        setAll: (cookieStrings) => {
+        setAll: (cookieStrings: BrowserCookie[]) => {
           if (typeof document === 'undefined') return;
           cookieStrings.forEach(({ name, value, ...options }) => {
             let cookieString = `${name}=${encodeURIComponent(value)}`;
@@ -68,14 +80,14 @@ export const createBrowserSupabaseClient = () => {
           });
         },
         // Also include get, set and remove for backward compatibility
-        get(name) {
+        get(name: string) {
           if (typeof document === 'undefined') return '';
           const cookie = document.cookie
             .split('; ')
             .find((row) => row.startsWith(`${name}=`));
           return cookie ? cookie.split('=')[1] : '';
         },
-        set(name, value, options) {
+        set(name: string, value: string, options: Partial<BrowserCookie> = {}) {
           if (typeof document === 'undefined') return;
           let cookieString = `${name}=${encodeURIComponent(value)}`;
           if (options.maxAge) {
@@ -101,7 +113,7 @@ export const createBrowserSupabaseClient = () => {
           }
           document.cookie = cookieString;
         },
-        remove(name, options) {
+        remove(name: string, options: Partial<BrowserCookie> = {}) {
           if (typeof document === 'undefined') return;
           document.cookie = `${name}=; Max-Age=0; ${options?.path ? `Path=${options.path};` : ''}`;
         }
@@ -110,14 +122,14 @@ export const createBrowserSupabaseClient = () => {
         persistSession: true,
         storageKey: 'skilllink-auth',
         storage: {
-          getItem: (key) => {
+          getItem: (key: string) => {
             if (typeof window === 'undefined') return null;
             return window.localStorage.getItem(key);
           },
-          setItem: (key, value) => {
+          setItem: (key: string, value: string) => {
             if (typeof window !== 'undefined') window.localStorage.setItem(key, value);
           },
-          removeItem: (key) => {
+          removeItem: (key: string) => {
             if (typeof window !== 'undefined') window.localStorage.removeItem(key);
           },
         },

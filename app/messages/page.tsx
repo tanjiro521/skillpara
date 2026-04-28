@@ -63,7 +63,7 @@ export default function MessagesPage() {
       }
       
       const { data, error } = await supabase
-        .from("users")
+        .from("profiles")
         .select("id, name, profile_image")
         .eq("id", userId)
         .single()
@@ -108,7 +108,7 @@ export default function MessagesPage() {
       }
 
       try {
-        const { data, error } = await supabase.from("users").select("*").eq("id", session.user.id).single()
+        const { data, error } = await supabase.from("profiles").select("*").eq("id", session.user.id).single()
 
         if (error) throw error
 
@@ -184,7 +184,7 @@ export default function MessagesPage() {
 
       // Get user details for each conversation partner
       const { data: users, error: usersError } = await supabase
-        .from("users")
+        .from("profiles")
         .select("id, name, profile_image")
         .in("id", Array.from(userIds))
 
@@ -496,7 +496,7 @@ export default function MessagesPage() {
                     />
                     <Button
                       type="submit"
-                      className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 flex-shrink-0"
+                      className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 flex-shrink-0"
                       disabled={!newMessage.trim()}
                     >
                       <Send className="h-4 w-4" />
@@ -522,3 +522,4 @@ export default function MessagesPage() {
     </div>
   )
 }
+

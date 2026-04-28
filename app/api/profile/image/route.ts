@@ -89,7 +89,7 @@ export async function POST(request: Request) {
 
     // Update user profile with new image URL
     const { data, error: updateError } = await supabase
-      .from("users")
+      .from("profiles")
       .update({
         profile_image: imageUrl,
         updated_at: new Date().toISOString(),

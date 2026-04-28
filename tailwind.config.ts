@@ -60,7 +60,12 @@ const config: Config = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			},
+  			maroon: '#7A1E2C',
+  			olive: '#7C8F5A',
+  			beige: '#F2E9DC',
+  			orange: '#D96B2B',
+  			greyblue: '#A8B5B9'
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

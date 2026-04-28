@@ -45,7 +45,7 @@ export async function PUT(request: Request) {
 
     // For debugging - let's try a simple query first
     const { data: userData, error: userError } = await supabase
-      .from("users")
+      .from("profiles")
       .select("*")
       .eq("id", userId)
       .single();
@@ -62,7 +62,7 @@ export async function PUT(request: Request) {
 
     // Update user profile
     const { data, error } = await supabase
-      .from("users")
+      .from("profiles")
       .update({
         name,
         phone,

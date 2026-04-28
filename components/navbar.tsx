@@ -56,14 +56,84 @@ export function Navbar() {
 
       if (session) {
         try {
-          const { data, error } = await supabase.from("users").select("*").eq("id", session.user.id).single()
+          let { data, error } = await supabase.from("profiles").select("*").eq("id", session.user.id).single()
 
-          if (error) throw error
+          if (error) {
+            if (error.code === 'PGRST116') { // No rows returned
+              // Profile doesn't exist, create it
+              const { data: newProfile, error: createError } = await supabase
+                .from("profiles")
+                .insert([{
+                  id: session.user.id,
+                  email: session.user.email,
+                  name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+                  role: session.user.user_metadata?.role || 'both',
+                  current_mode: 'learner',
+                  profile_image: "/placeholder.svg?height=200&width=200",
+                  bio: "",
+                  phone: "",
+                  location: "",
+                }])
+                .select()
+                .single()
 
-          setUser(data)
-          setIsProviderMode(data.role === "provider" || data.role === "both")
+              if (createError) {
+                console.error("Error creating profile:", createError)
+                // If table doesn't exist, just set basic user info
+                setUser({
+                  id: session.user.id,
+                  email: session.user.email,
+                  name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+                  role: session.user.user_metadata?.role || 'both',
+                  current_mode: 'learner',
+                  profile_image: "/placeholder.svg?height=200&width=200",
+                  bio: "",
+                  phone: "",
+                  location: "",
+                })
+                setIsProviderMode(true)
+              } else {
+                data = newProfile
+                setUser(data)
+                setIsProviderMode(data.role === "provider" || data.role === "both")
+              }
+            } else if (error.message?.includes('relation "public.profiles" does not exist')) {
+              // Table doesn't exist, create basic user object
+              console.warn("Profiles table doesn't exist, using basic user data")
+              setUser({
+                id: session.user.id,
+                email: session.user.email,
+                name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+                role: session.user.user_metadata?.role || 'both',
+                current_mode: 'learner',
+                profile_image: "/placeholder.svg?height=200&width=200",
+                bio: "",
+                phone: "",
+                location: "",
+              })
+              setIsProviderMode(true)
+            } else {
+              throw error
+            }
+          } else {
+            setUser(data)
+            setIsProviderMode(data.role === "provider" || data.role === "both")
+          }
         } catch (error) {
           console.error("Error fetching user:", error)
+          // Fallback to basic user data from session
+          setUser({
+            id: session.user.id,
+            email: session.user.email,
+            name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || 'User',
+            role: session.user.user_metadata?.role || 'both',
+            current_mode: 'learner',
+            profile_image: "/placeholder.svg?height=200&width=200",
+            bio: "",
+            phone: "",
+            location: "",
+          })
+          setIsProviderMode(true)
         }
       }
 
@@ -79,17 +149,22 @@ export function Navbar() {
 
     // Fetch existing notifications
     const fetchNotifications = async () => {
-      const { data, error } = await supabase
-        .from("notifications")
-        .select("*")
-        .eq("user_id", user.id)
-        .eq("is_read", false)
-        .order("created_at", { ascending: false })
-        .limit(5)
+      try {
+        const { data, error } = await supabase
+          .from("notifications")
+          .select("*")
+          .eq("user_id", user.id)
+          .eq("is_read", false)
+          .order("created_at", { ascending: false })
+          .limit(5)
 
-      if (!error && data) {
-        setNotifications(data)
-        setUnreadCount(data.length)
+        if (!error && data) {
+          setNotifications(data)
+          setUnreadCount(data.length)
+        }
+      } catch (error) {
+        // If notifications table doesn't exist, just skip
+        console.warn("Notifications table not accessible")
       }
     }
 
@@ -154,7 +229,7 @@ export function Navbar() {
     try {
       if (user.role === "both") {
         const { error } = await supabase
-          .from("users")
+          .from("profiles")
           .update({ current_mode: newMode ? "provider" : "seeker" })
           .eq("id", user.id)
 
@@ -197,7 +272,7 @@ export function Navbar() {
           >
             <Image 
               src="/logo.png" 
-              alt="SkillLink Logo" 
+              alt="skillpara Logo" 
               fill 
               className="object-contain" 
               priority
@@ -205,8 +280,8 @@ export function Navbar() {
             />
 
           </motion.div>
-          <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent group-hover:bg-gradient-to-r group-hover:from-purple-700 group-hover:to-blue-700 dark:group-hover:from-purple-300 dark:group-hover:to-blue-300 transition-all duration-300">
-            SkillLink
+          <span className="font-bold text-xl bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent group-hover:bg-gradient-to-r group-hover:from-maroon group-hover:to-olive dark:group-hover:from-maroon dark:group-hover:to-olive transition-all duration-300">
+            skillpara
           </span>
         </Link>
 
@@ -465,16 +540,16 @@ export function Navbar() {
             <div className="hidden md:flex items-center space-x-2">
               <Button
                 variant="ghost"
-                onClick={() => router.push("/login")}
+                onClick={() => router.push("/dashboard")}
                 className="text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
-                Log In
+                Enter App
               </Button>
               <Button
-                onClick={() => router.push("/signup")}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-md hover:shadow-lg transition-all"
+                onClick={() => router.push("/dashboard")}
+                className="bg-gradient-to-r from-maroon to-olive hover:from-maroon hover:to-olive dark:from-maroon dark:to-olive dark:hover:from-maroon dark:hover:to-olive text-white shadow-md hover:shadow-lg transition-all"
               >
-                Sign Up
+                Open Dashboard
               </Button>
             </div>
           )}
@@ -499,13 +574,13 @@ export function Navbar() {
                     <div className="relative w-8 h-8">
                       <Image
                         src="/logo.png?height=32&width=32"
-                        alt="SkillLink Logo"
+                        alt="skillpara Logo"
                         fill
                         className="object-contain"
                       />
                     </div>
-                    <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
-                      SkillLink
+                    <span className="font-bold text-xl bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent">
+                      skillpara
                     </span>
                   </Link>
                 </div>
@@ -618,7 +693,7 @@ export function Navbar() {
                       <Button
                         variant="default"
                         onClick={handleLogout}
-                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-md hover:shadow-lg transition-all"
+                        className="w-full bg-gradient-to-r from-maroon to-olive hover:from-maroon hover:to-olive dark:from-maroon dark:to-olive dark:hover:from-maroon dark:hover:to-olive text-white shadow-md hover:shadow-lg transition-all"
                       >
                         <LogOut className="mr-2 h-4 w-4" />
                         Log out
@@ -628,16 +703,16 @@ export function Navbar() {
                     <div className="grid grid-cols-2 gap-2">
                       <Button
                         variant="outline"
-                        onClick={() => router.push("/login")}
+                        onClick={() => router.push("/dashboard")}
                         className="w-full text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
                       >
-                        Log In
+                        Enter App
                       </Button>
                       <Button
-                        onClick={() => router.push("/signup")}
-                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-md hover:shadow-lg transition-all"
+                        onClick={() => router.push("/dashboard")}
+                        className="w-full bg-gradient-to-r from-maroon to-olive hover:from-maroon hover:to-olive dark:from-maroon dark:to-olive dark:hover:from-maroon dark:hover:to-olive text-white shadow-md hover:shadow-lg transition-all"
                       >
-                        Sign Up
+                        Dashboard
                       </Button>
                     </div>
                   )}
@@ -650,3 +725,4 @@ export function Navbar() {
     </header>
   )
 }
+

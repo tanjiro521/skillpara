@@ -274,7 +274,7 @@ export function SkillsSection({ user }: SkillsSectionProps) {
         <h2 className="text-2xl font-bold">Your Skills</h2>
         <Button
           onClick={() => setIsAddingSkill(true)}
-          className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+          className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
           disabled={isAddingSkill}
         >
           <Plus className="mr-2 h-4 w-4" />
@@ -379,7 +379,7 @@ export function SkillsSection({ user }: SkillsSectionProps) {
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                    className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
                   >
                     Add Skill
                   </Button>
@@ -563,7 +563,7 @@ export function TimeSlotModal({ date, isOpen, onClose, onSubmit }: TimeSlotModal
             </Button>
             <Button
               type="submit"
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+              className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
             >
               Add Slot
             </Button>
@@ -573,3 +573,4 @@ export function TimeSlotModal({ date, isOpen, onClose, onSubmit }: TimeSlotModal
     </Dialog>
   )
 }
+

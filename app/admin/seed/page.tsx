@@ -103,7 +103,7 @@ export default function SeedPage() {
               <Button
                 onClick={handleSeedDatabase}
                 disabled={isLoading}
-                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
               >
                 {isLoading ? (
                   <>
@@ -125,3 +125,4 @@ export default function SeedPage() {
     </div>
   )
 }
+

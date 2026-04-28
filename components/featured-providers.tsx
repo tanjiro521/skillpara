@@ -184,13 +184,13 @@ export function FeaturedProviders() {
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
+            <h2 className="text-3xl font-bold mb-3 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent">
               Featured Skill Providers
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300">
               Discover top-rated skill providers in your community
             </p>
-            <div className="h-1 w-16 bg-gradient-to-r from-purple-500 to-blue-500 dark:from-purple-400 dark:to-blue-400 rounded-full mt-3"></div>
+            <div className="h-1 w-16 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive rounded-full mt-3"></div>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -218,7 +218,7 @@ export function FeaturedProviders() {
             <div className="relative">
               {/* Desktop view: grid layout */}
               <motion.div
-                variants={containerVariants}
+                variants={containerVariants as any}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
@@ -227,7 +227,7 @@ export function FeaturedProviders() {
                 {providers.map((provider) => (
                   <motion.div
                     key={provider.id}
-                    variants={itemVariants}
+                    variants={itemVariants as any}
                     whileHover={{ 
                       y: -8, 
                       transition: { 
@@ -242,7 +242,7 @@ export function FeaturedProviders() {
                       className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl dark:hover:shadow-2xl dark:hover:shadow-purple-900/20 transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700/50 h-full flex flex-col group cursor-pointer"
                       onClick={() => handleViewProfile(provider.id)}
                     >
-                      <div className="h-36 relative bg-gradient-to-r from-purple-500/20 to-blue-500/20 dark:from-purple-900/40 dark:to-blue-900/40">
+                      <div className="h-36 relative bg-gradient-to-r from-maroon/20 to-olive/20 dark:from-purple-900/40 dark:to-blue-900/40">
                         <div className="absolute inset-0 bg-white/10 dark:bg-black/10 group-hover:bg-white/0 dark:group-hover:bg-black/0 transition-colors duration-300"></div>
                         <Avatar className="absolute h-24 w-24 bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 border-4 border-white dark:border-gray-800 shadow-lg transition-transform group-hover:scale-105 group-hover:border-purple-100 dark:group-hover:border-purple-900">
                           <AvatarImage src={provider.profile_image} alt={provider.name} />
@@ -278,7 +278,7 @@ export function FeaturedProviders() {
                         </p>
                         <div className="mt-auto flex justify-center">
                           <Button 
-                            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-sm hover:shadow-md transition-shadow"
+                            className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-sm hover:shadow-md transition-shadow"
                             size="sm"
                           >
                             View Profile
@@ -307,7 +307,7 @@ export function FeaturedProviders() {
                         onClick={() => handleViewProfile(providers[currentSlide].id)}
                       >
                         <div className="p-6 flex flex-col items-center">
-                          <div className="h-28 w-28 rounded-full bg-gradient-to-r from-purple-500/20 to-blue-500/20 dark:from-purple-900/30 dark:to-blue-900/30 flex items-center justify-center mb-5">
+                          <div className="h-28 w-28 rounded-full bg-gradient-to-r from-maroon/20 to-olive/20 dark:from-purple-900/30 dark:to-blue-900/30 flex items-center justify-center mb-5">
                             <Avatar className="h-24 w-24 border-4 border-white dark:border-gray-800">
                               <AvatarImage src={providers[currentSlide].profile_image} alt={providers[currentSlide].name} />
                               <AvatarFallback className="bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 text-purple-700 dark:text-purple-300 text-xl">
@@ -340,7 +340,7 @@ export function FeaturedProviders() {
                             {providers[currentSlide].bio}
                           </p>
                           <Button 
-                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-md"
+                            className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-md"
                           >
                             View Profile
                           </Button>
@@ -357,7 +357,7 @@ export function FeaturedProviders() {
                       key={index}
                       className={`h-2.5 rounded-full transition-all duration-300 ${
                         currentSlide === index
-                          ? "w-8 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400"
+                          ? "w-8 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive"
                           : "w-2.5 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500"
                       }`}
                       onClick={() => setCurrentSlide(index)}
@@ -389,3 +389,4 @@ export function FeaturedProviders() {
     </section>
   )
 }
+

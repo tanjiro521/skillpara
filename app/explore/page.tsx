@@ -29,13 +29,172 @@ type Skill = {
   user: {
     id: string
     name: string
-    profile_image: string
+    profile_image: string | null
     location: string
   }
   rating?: number
   available_now?: boolean
   open_to_skill_swap?: boolean
 }
+
+const DEMO_SKILLS: Skill[] = [
+  {
+    id: 'demo-1',
+    skill_name: 'UX Design Systems',
+    category: 'Design',
+    description: 'Build elegant product systems and user journeys with Figma and design thinking.',
+    intent: 'provider',
+    user_id: 'demo-user-1',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-1', name: 'Priya Sharma', profile_image: null, location: 'Bangalore, India' },
+    rating: 5,
+    available_now: true,
+    open_to_skill_swap: true,
+  },
+  {
+    id: 'demo-2',
+    skill_name: 'SEO & Growth Marketing',
+    category: 'Business',
+    description: 'Digital marketing, SEO strategy, and growth loops for startups.',
+    intent: 'provider',
+    user_id: 'demo-user-2',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-2', name: 'Rahul Verma', profile_image: null, location: 'Delhi, India' },
+    rating: 4.8,
+    available_now: true,
+    open_to_skill_swap: false,
+  },
+  {
+    id: 'demo-3',
+    skill_name: 'Spoken English for Interviews',
+    category: 'Languages',
+    description: 'Practice interview conversations and improve your confidence in English.',
+    intent: 'provider',
+    user_id: 'demo-user-3',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-3', name: 'Ananya Kapoor', profile_image: null, location: 'Mumbai, India' },
+    rating: 4.7,
+    available_now: false,
+    open_to_skill_swap: true,
+  },
+  {
+    id: 'demo-4',
+    skill_name: 'Indian Classical Vocals',
+    category: 'Music',
+    description: 'Learn alap, taan, and voice control for Indian classical singing.',
+    intent: 'provider',
+    user_id: 'demo-user-4',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-4', name: 'Sneha Gupta', profile_image: null, location: 'Kolkata, India' },
+    rating: 4.9,
+    available_now: true,
+    open_to_skill_swap: true,
+  },
+  {
+    id: 'demo-5',
+    skill_name: 'Yoga for Stress Relief',
+    category: 'Fitness & Health',
+    description: 'Gentle yoga flows and breathing exercises designed for modern professionals.',
+    intent: 'provider',
+    user_id: 'demo-user-5',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-5', name: 'Aman Rathi', profile_image: null, location: 'Pune, India' },
+    rating: 4.8,
+    available_now: true,
+    open_to_skill_swap: true,
+  },
+  {
+    id: 'demo-6',
+    skill_name: 'Excel for Business Analytics',
+    category: 'Business',
+    description: 'Create dashboards, pivot tables and real-world reports with Excel.',
+    intent: 'provider',
+    user_id: 'demo-user-6',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-6', name: 'Kiran Singh', profile_image: null, location: 'Chennai, India' },
+    rating: 4.6,
+    available_now: false,
+    open_to_skill_swap: false,
+  },
+  {
+    id: 'demo-7',
+    skill_name: 'React Native Apps',
+    category: 'Technology',
+    description: 'Build mobile apps with React Native and publish them to app stores.',
+    intent: 'provider',
+    user_id: 'demo-user-7',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-7', name: 'Nisha Rao', profile_image: null, location: 'Hyderabad, India' },
+    rating: 4.9,
+    available_now: true,
+    open_to_skill_swap: false,
+  },
+  {
+    id: 'demo-8',
+    skill_name: 'Gujarati Cooking Masterclass',
+    category: 'Cooking',
+    description: 'Learn authentic Gujarati thalis, snacks, and sweets from a local chef.',
+    intent: 'provider',
+    user_id: 'demo-user-8',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-8', name: 'Aarav Patel', profile_image: null, location: 'Ahmedabad, India' },
+    rating: 4.7,
+    available_now: true,
+    open_to_skill_swap: true,
+  },
+  {
+    id: 'demo-9',
+    skill_name: 'Photography Foundations',
+    category: 'Arts & Crafts',
+    description: 'Basics of lighting, composition, and creative portrait photography.',
+    intent: 'provider',
+    user_id: 'demo-user-9',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-9', name: 'Deepika Joshi', profile_image: null, location: 'Jaipur, India' },
+    rating: 4.5,
+    available_now: false,
+    open_to_skill_swap: false,
+  },
+  {
+    id: 'demo-10',
+    skill_name: 'Hindi Creative Writing',
+    category: 'Languages',
+    description: 'Practice creative Hindi storytelling, poetry, and essay writing.',
+    intent: 'provider',
+    user_id: 'demo-user-10',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-10', name: 'Mohit Sharma', profile_image: null, location: 'Varanasi, India' },
+    rating: 4.4,
+    available_now: true,
+    open_to_skill_swap: true,
+  },
+  {
+    id: 'demo-11',
+    skill_name: 'Creative Illustration in Procreate',
+    category: 'Arts & Crafts',
+    description: 'Digital illustration workflow for comics, branding, and social content.',
+    intent: 'provider',
+    user_id: 'demo-user-11',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-11', name: 'Sunita Menon', profile_image: null, location: 'Kochi, India' },
+    rating: 4.8,
+    available_now: false,
+    open_to_skill_swap: true,
+  },
+  {
+    id: 'demo-12',
+    skill_name: 'Startup Pitch Coaching',
+    category: 'Business',
+    description: 'Prepare your investor pitch, storytelling, and presentation confidence.',
+    intent: 'provider',
+    user_id: 'demo-user-12',
+    created_at: new Date().toISOString(),
+    user: { id: 'demo-user-12', name: 'Tarun Bansal', profile_image: null, location: 'Lucknow, India' },
+    rating: 4.7,
+    available_now: true,
+    open_to_skill_swap: false,
+  },
+]
 
 function ExploreContent() {
   const searchParams = useSearchParams()
@@ -45,9 +204,11 @@ function ExploreContent() {
   const initialSkill = searchParams.get("skill") || ""
   const initialLocation = searchParams.get("location") || ""
   const initialCategory = searchParams.get("category") || "all"
+  const initialDemo = searchParams.get("demo") === "true"
 
   const [searchTerm, setSearchTerm] = useState(initialSkill)
   const [location, setLocation] = useState(initialLocation)
+  const [isDemoMode, setIsDemoMode] = useState(initialDemo)
   const [category, setCategory] = useState(initialCategory)
   const [minRating, setMinRating] = useState(0)
   const [availableNow, setAvailableNow] = useState(false)
@@ -58,6 +219,49 @@ function ExploreContent() {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [intentFilter, setIntentFilter] = useState<string>("all") // "all", "provider", or "seeker"
+
+  const applyDemoFilters = (items: Skill[]) => {
+    let filtered = [...items]
+
+    if (searchTerm) {
+      const lowerSearch = searchTerm.toLowerCase()
+      filtered = filtered.filter(
+        (skill) =>
+          skill.skill_name.toLowerCase().includes(lowerSearch) ||
+          skill.description.toLowerCase().includes(lowerSearch) ||
+          skill.user.name.toLowerCase().includes(lowerSearch)
+      )
+    }
+
+    if (category !== "all") {
+      filtered = filtered.filter((skill) => skill.category === category)
+    }
+
+    if (intentFilter !== "all") {
+      filtered = filtered.filter((skill) => skill.intent === intentFilter)
+    }
+
+    if (location) {
+      const lowerLocation = location.toLowerCase()
+      filtered = filtered.filter((skill) =>
+        skill.user.location.toLowerCase().includes(lowerLocation)
+      )
+    }
+
+    if (skillSwap) {
+      filtered = filtered.filter((skill) => skill.open_to_skill_swap)
+    }
+
+    if (availableNow) {
+      filtered = filtered.filter((skill) => skill.available_now)
+    }
+
+    if (minRating > 0) {
+      filtered = filtered.filter((skill) => (skill.rating || 0) >= minRating)
+    }
+
+    return filtered
+  }
 
   useEffect(() => {
     if (initialSkill) {
@@ -76,6 +280,14 @@ function ExploreContent() {
     }
 
     try {
+      if (isDemoMode) {
+        const demoSkills = applyDemoFilters(DEMO_SKILLS)
+        setSkills(demoSkills)
+        setHasMore(false)
+        setLoading(false)
+        return
+      }
+
       const currentPage = reset ? 1 : page
       const pageSize = 12
       const startRange = (currentPage - 1) * pageSize
@@ -116,18 +328,19 @@ function ExploreContent() {
       const { data: skillsData, error: skillsError } = await query;
 
       if (skillsError) {
-        console.error("Supabase skills query error:", skillsError);
+        // console.error("Supabase skills query error:", skillsError);
         throw skillsError;
       }
 
       console.log("Skills query result:", skillsData?.length || 0, "items");
 
-      // If no skills found, return early
       if (!skillsData || skillsData.length === 0) {
-        setSkills([]);
-        setHasMore(false);
-        setLoading(false);
-        return;
+        const demoSkills = applyDemoFilters(DEMO_SKILLS)
+        setSkills(demoSkills)
+        setHasMore(false)
+        setIsDemoMode(true)
+        setLoading(false)
+        return
       }
 
       // Get unique user IDs from skills
@@ -135,7 +348,7 @@ function ExploreContent() {
       
       // Fetch user information separately
       const { data: usersData, error: usersError } = await supabase
-        .from("users")
+        .from("profiles")
         .select("*")
         .in("id", userIds);
       
@@ -144,7 +357,7 @@ function ExploreContent() {
       }
 
       // Create a map of users by ID for easy lookup
-      const usersMap = (usersData || []).reduce((map, user) => {
+      const usersMap = (usersData || []).reduce<Record<string, any>>((map, user) => {
         map[user.id] = user;
         return map;
       }, {});
@@ -230,7 +443,11 @@ function ExploreContent() {
       setHasMore(filteredSkills.length === pageSize);
       setPage(currentPage + 1);
     } catch (error) {
-      console.error("Error fetching skills:", error);
+      console.warn("Error fetching skills; switching to demo mode:", error)
+      const demoSkills = applyDemoFilters(DEMO_SKILLS)
+      setSkills(demoSkills)
+      setHasMore(false)
+      setIsDemoMode(true)
     } finally {
       setLoading(false);
     }
@@ -298,7 +515,7 @@ function ExploreContent() {
                 </div>
                 <Button
                   type="submit"
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
+                  className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
                 >
                   Search
                 </Button>
@@ -401,7 +618,7 @@ function ExploreContent() {
 
                   <Button
                     onClick={() => fetchSkills()}
-                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
+                    className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
                   >
                     Apply Filters
                   </Button>
@@ -410,6 +627,11 @@ function ExploreContent() {
             </div>
 
             <div className="lg:col-span-3">
+              {isDemoMode && !loading && (
+                <div className="mb-4 rounded-3xl border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-900 dark:border-yellow-600 dark:bg-yellow-950/20 dark:text-yellow-100">
+                  Demo mode is active. These sample profiles are shown so you can demonstrate filtering and portfolio browsing even if the backend is unavailable.
+                </div>
+              )}
               {loading ? (
                 <div className="flex justify-center items-center h-64">
                   <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-600 dark:border-purple-500"></div>
@@ -485,7 +707,7 @@ function ExploreContent() {
                           </CardContent>
                           <CardFooter>
                             <Button 
-                              className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
+                              className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
                               onClick={() => handleViewProfile(skill.user_id)}
                             >
                               View Profile <ArrowRight className="ml-2 h-4 w-4" />
@@ -550,3 +772,4 @@ export default function ExplorePage() {
     </Suspense>
   )
 }
+

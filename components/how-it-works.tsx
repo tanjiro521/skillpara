@@ -21,7 +21,7 @@ export function HowItWorks() {
       description: "Browse our extensive catalog of skills offered by professionals in your area. Filter by category, rating, and availability.",
       image: "/placeholder.svg?height=300&width=400",
       color: "from-blue-500 to-blue-600",
-      darkColor: "dark:from-blue-400 dark:to-blue-500",
+      darkColor: "dark:from-blue-400 dark:to-olive",
       bgColor: "bg-blue-50 dark:bg-blue-950/30"
     },
     {
@@ -29,8 +29,8 @@ export function HowItWorks() {
       title: "Book a Session",
       description: "Choose a time that works for you and book directly through our platform. Secure, easy, and instant confirmation.",
       image: "/placeholder.svg?height=300&width=400",
-      color: "from-purple-500 to-purple-600",
-      darkColor: "dark:from-purple-400 dark:to-purple-500",
+      color: "from-maroon to-purple-600",
+      darkColor: "dark:from-maroon dark:to-purple-500",
       bgColor: "bg-purple-50 dark:bg-purple-950/30"
     },
     {
@@ -81,7 +81,7 @@ export function HowItWorks() {
   return (
     <section id="how-it-works" className="py-20 bg-gradient-to-br from-purple-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300 relative overflow-hidden">
       {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-500"></div>
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive"></div>
       <div className="absolute top-10 right-10 h-32 w-32 bg-purple-200 dark:bg-purple-900/20 rounded-full blur-3xl opacity-40 pointer-events-none"></div>
       <div className="absolute bottom-10 left-10 h-48 w-48 bg-blue-200 dark:bg-blue-900/20 rounded-full blur-3xl opacity-40 pointer-events-none"></div>
       
@@ -93,13 +93,13 @@ export function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
-            How SkillLink Works
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent">
+            How skillpara Works
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Connect with skilled professionals or offer your expertise in a few simple steps
           </p>
-          <div className="h-1 w-20 bg-gradient-to-r from-purple-500 to-blue-500 dark:from-purple-400 dark:to-blue-400 mx-auto mt-6 rounded-full"></div>
+          <div className="h-1 w-20 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive mx-auto mt-6 rounded-full"></div>
         </motion.div>
 
         {/* Desktop View - Only shown on lg screens and up */}
@@ -113,7 +113,7 @@ export function HowItWorks() {
                   initial="hidden"
                   animate="visible"
                   exit="exit"
-                  variants={contentVariants}
+                  variants={contentVariants as any}
                   className={`relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-100 dark:border-gray-700 transition-colors duration-300 ${steps[activeTab].bgColor}`}
                 >
                   <div className="aspect-w-4 aspect-h-3 relative">
@@ -145,7 +145,7 @@ export function HowItWorks() {
           {/* Step indicators for desktop */}
           <div>
             <motion.div
-              variants={containerVariants}
+              variants={containerVariants as any}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -154,7 +154,7 @@ export function HowItWorks() {
               {steps.map((step, index) => (
                 <motion.div
                   key={index}
-                  variants={itemVariants}
+                  variants={itemVariants as any}
                   whileHover={{ x: 5 }}
                   whileTap={{ scale: 0.98 }}
                   className={`
@@ -208,7 +208,7 @@ export function HowItWorks() {
         {/* Mobile View - Only shown on screens smaller than lg */}
         <div className="block lg:hidden">
           <motion.div 
-            variants={containerVariants}
+            variants={containerVariants as any}
             initial="hidden"
             animate="visible"
             className="space-y-6"
@@ -216,7 +216,7 @@ export function HowItWorks() {
             {steps.map((step, index) => (
               <motion.div 
                 key={index} 
-                variants={itemVariants}
+                variants={itemVariants as any}
                 whileHover={{ y: -5 }}
                 className={`bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 ${step.bgColor}`}
               >
@@ -240,3 +240,4 @@ export function HowItWorks() {
     </section>
   )
 }
+

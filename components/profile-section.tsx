@@ -60,8 +60,8 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
 
     try {
       // Use Supabase client directly - more reliable than API route
-      const { data, error } = await supabase
-        .from("users")
+      const { data, error } = await (supabase as any)
+        .from("profiles")
         .update({
           name: formData.name,
           phone: formData.phone,
@@ -142,8 +142,8 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
       const data = await response.json();
       
       // After successful upload, update user profile with the new image URL
-      const { data: userData, error: updateError } = await supabase
-        .from("users")
+      const { data: userData, error: updateError } = await (supabase as any)
+        .from("profiles")
         .update({
           profile_image: data.fileUrl,
           updated_at: new Date().toISOString(),
@@ -329,7 +329,7 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
                   </Button>
                   <Button
                     type="submit"
-                    className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                    className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
                     disabled={isLoading}
                   >
                     {isLoading ? (
@@ -378,3 +378,4 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
     </div>
   )
 }
+

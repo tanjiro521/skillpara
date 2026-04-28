@@ -15,7 +15,7 @@ import { ExclamationTriangleIcon } from "@radix-ui/react-icons"
 import { useToast } from "@/components/ui/use-toast"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://skilllink-one.vercel.app'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://skillpara.vercel.app'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -127,7 +127,7 @@ export default function ForgotPasswordPage() {
                 <CardFooter className="flex flex-col space-y-4">
                   <Button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                    className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
                     disabled={isLoading}
                   >
                     {isLoading ? "Sending reset link..." : "Send Reset Link"}

@@ -49,16 +49,16 @@ export function Footer() {
           {/* Company Info */}
           <motion.div variants={itemVariants} className="space-y-6">
             <div className="flex items-center space-x-2">
-              <div className="relative w-10 h-10 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-500 rounded-lg p-1.5 shadow-lg">
+              <div className="relative w-10 h-10 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive rounded-lg p-1.5 shadow-lg">
                 <Image 
                   src="/logo.png?height=32&width=32" 
-                  alt="SkillLink Logo" 
+                  alt="skillpara Logo" 
                   fill 
                   className="object-contain" 
                 />
               </div>
-              <span className="font-bold text-xl bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent">
-                SkillLink
+              <span className="font-bold text-xl bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent">
+                skillpara
               </span>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -111,7 +111,7 @@ export function Footer() {
           {/* Navigation Links */}
           <motion.div variants={itemVariants}>
             <h3 className="text-base font-bold mb-6 text-gray-800 dark:text-gray-100 flex items-center">
-              <span className="w-6 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 dark:from-purple-400 dark:to-blue-400 rounded-full mr-2"></span>
+              <span className="w-6 h-0.5 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive rounded-full mr-2"></span>
               Navigation
             </h3>
             <ul className="space-y-3">
@@ -135,7 +135,7 @@ export function Footer() {
           {/* Support Links */}
           <motion.div variants={itemVariants}>
             <h3 className="text-base font-bold mb-6 text-gray-800 dark:text-gray-100 flex items-center">
-              <span className="w-6 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 dark:from-purple-400 dark:to-blue-400 rounded-full mr-2"></span>
+              <span className="w-6 h-0.5 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive rounded-full mr-2"></span>
               Support
             </h3>
             <ul className="space-y-3">
@@ -159,7 +159,7 @@ export function Footer() {
           {/* Contact Info & Newsletter */}
           <motion.div variants={itemVariants}>
             <h3 className="text-base font-bold mb-6 text-gray-800 dark:text-gray-100 flex items-center">
-              <span className="w-6 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 dark:from-purple-400 dark:to-blue-400 rounded-full mr-2"></span>
+              <span className="w-6 h-0.5 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive rounded-full mr-2"></span>
               Stay Updated
             </h3>
             <div className="space-y-5">
@@ -173,7 +173,7 @@ export function Footer() {
                   className="bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 focus:border-purple-500 dark:focus:border-purple-400"
                 />
                 <Button 
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
+                  className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
                 >
                   <Send className="h-4 w-4" />
                 </Button>
@@ -182,7 +182,7 @@ export function Footer() {
               <div className="pt-4 space-y-3">
                 <div className="flex items-start">
                   <Mail className="h-5 w-5 mr-2 text-purple-600 dark:text-purple-400 mt-0.5" />
-                  <span className="text-sm text-gray-600 dark:text-gray-300">support@skilllink.com</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-300">support@skillpara.com</span>
                 </div>
                 <div className="flex items-start">
                   <Phone className="h-5 w-5 mr-2 text-purple-600 dark:text-purple-400 mt-0.5" />
@@ -203,7 +203,7 @@ export function Footer() {
         <div className="border-t border-gray-200 dark:border-gray-800/60 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-sm text-center text-gray-600 dark:text-gray-400 mb-4 md:mb-0">
-              &copy; {new Date().getFullYear()} SkillLink. All rights reserved.
+              &copy; {new Date().getFullYear()} skillpara. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-6 text-xs text-gray-500 dark:text-gray-400">
               <Link href="/accessibility" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
@@ -240,3 +240,4 @@ export function Footer() {
     </footer>
   )
 }
+

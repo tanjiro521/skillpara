@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation"
+import Image from "next/image"
+import Link from "next/link"
 
 type DashboardSidebarProps = {
   user: any
@@ -27,6 +29,19 @@ export function DashboardSidebar({ user, activeTab, setActiveTab, unreadCount = 
     <div className="lg:col-span-1">
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md sticky top-24 border border-gray-100 dark:border-gray-700 transition-colors duration-300">
         <div className="flex flex-col items-center mb-6">
+          <Link href="/" className="flex items-center space-x-2 mb-6">
+            <div className="relative w-12 h-12">
+              <Image 
+                src="/logo.png" 
+                alt="skillpara Logo" 
+                fill 
+                className="object-contain" 
+              />
+            </div>
+            <span className="font-bold text-lg bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent">
+              skillpara
+            </span>
+          </Link>
           <Avatar className="h-20 w-20 mb-4 border-2 border-gray-100 dark:border-gray-700">
             <AvatarImage src={user?.profile_image || "/placeholder.svg"} alt={user?.name} />
             <AvatarFallback className="bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300">{user?.name ? getInitials(user.name) : "U"}</AvatarFallback>
@@ -53,7 +68,7 @@ export function DashboardSidebar({ user, activeTab, setActiveTab, unreadCount = 
           <Button
             variant={activeTab === "bookings" ? "default" : "ghost"}
             className={`w-full justify-start ${
-              activeTab === "bookings" ? "bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-500" : "dark:text-gray-300 dark:hover:bg-gray-700/50"
+              activeTab === "bookings" ? "bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive" : "dark:text-gray-300 dark:hover:bg-gray-700/50"
             }`}
             onClick={() => setActiveTab("bookings")}
           >
@@ -72,7 +87,7 @@ export function DashboardSidebar({ user, activeTab, setActiveTab, unreadCount = 
           <Button
             variant={activeTab === "availability" ? "default" : "ghost"}
             className={`w-full justify-start ${
-              activeTab === "availability" ? "bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-500" : "dark:text-gray-300 dark:hover:bg-gray-700/50"
+              activeTab === "availability" ? "bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive" : "dark:text-gray-300 dark:hover:bg-gray-700/50"
             }`}
             onClick={() => setActiveTab("availability")}
           >
@@ -83,7 +98,7 @@ export function DashboardSidebar({ user, activeTab, setActiveTab, unreadCount = 
           <Button
             variant={activeTab === "profile" ? "default" : "ghost"}
             className={`w-full justify-start ${
-              activeTab === "profile" ? "bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-500" : "dark:text-gray-300 dark:hover:bg-gray-700/50"
+              activeTab === "profile" ? "bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive" : "dark:text-gray-300 dark:hover:bg-gray-700/50"
             }`}
             onClick={() => setActiveTab("profile")}
           >
@@ -94,7 +109,7 @@ export function DashboardSidebar({ user, activeTab, setActiveTab, unreadCount = 
           <Button
             variant={activeTab === "skills" ? "default" : "ghost"}
             className={`w-full justify-start ${
-              activeTab === "skills" ? "bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-500 dark:to-blue-500" : "dark:text-gray-300 dark:hover:bg-gray-700/50"
+              activeTab === "skills" ? "bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive" : "dark:text-gray-300 dark:hover:bg-gray-700/50"
             }`}
             onClick={() => setActiveTab("skills")}
           >
@@ -136,3 +151,4 @@ export function DashboardSidebar({ user, activeTab, setActiveTab, unreadCount = 
     </div>
   )
 }
+

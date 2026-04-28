@@ -8,7 +8,7 @@ export async function seedDatabase(supabaseUrl: string, supabaseKey: string) {
     
     // Verify connection by checking if we can access users
     try {
-      const { error: connectionTest } = await supabase.from("users").select("count").limit(1)
+      const { error: connectionTest } = await supabase.from("profiles").select("count").limit(1)
       if (connectionTest) {
         console.error("Connection test failed:", connectionTest.message)
         return { 
@@ -162,6 +162,72 @@ export async function seedDatabase(supabaseUrl: string, supabaseKey: string) {
         },
       },
       {
+        email: "priya.sharma@example.com",
+        password: "password123",
+        userData: {
+          name: "Priya Sharma",
+          role: "provider",
+          profile_image: "/placeholder.svg?height=200&width=200",
+          bio: "Design strategist and mentor from Bangalore. I teach UX, Figma, and startup pitch design.",
+          location: "Bangalore, India",
+          phone: "+91-98765-43210",
+          distance: 7,
+        },
+      },
+      {
+        email: "rahul.verma@example.com",
+        password: "password123",
+        userData: {
+          name: "Rahul Verma",
+          role: "both",
+          current_mode: "provider",
+          profile_image: "/placeholder.svg?height=200&width=200",
+          bio: "Digital marketer from Delhi with experience in SEO, Google Ads, and growth strategy.",
+          location: "Delhi, India",
+          phone: "+91-91234-56789",
+          distance: 6,
+        },
+      },
+      {
+        email: "neha.gupta@example.com",
+        password: "password123",
+        userData: {
+          name: "Neha Gupta",
+          role: "provider",
+          profile_image: "/placeholder.svg?height=200&width=200",
+          bio: "Spoken English and career coaching trainer based in Kolkata. I help learners build confidence and interview skills.",
+          location: "Kolkata, India",
+          phone: "+91-99887-66554",
+          distance: 8,
+        },
+      },
+      {
+        email: "aman.rathi@example.com",
+        password: "password123",
+        userData: {
+          name: "Aman Rathi",
+          role: "provider",
+          profile_image: "/placeholder.svg?height=200&width=200",
+          bio: "Yoga and wellness coach from Pune. I teach stress-relief routines, breathwork, and mindful movement.",
+          location: "Pune, India",
+          phone: "+91-98989-12345",
+          distance: 5,
+        },
+      },
+      {
+        email: "sneha.pandey@example.com",
+        password: "password123",
+        userData: {
+          name: "Sneha Pandey",
+          role: "provider",
+          profile_image: "/placeholder.svg?height=200&width=200",
+          bio: "Vocal coach from Lucknow specialized in Indian classical music and ghazal singing.",
+          location: "Lucknow, India",
+          phone: "+91-90123-45678",
+          distance: 9,
+        },
+      },
+      {
         email: "michael.brown@example.com",
         password: "password123",
         userData: {
@@ -203,7 +269,7 @@ export async function seedDatabase(supabaseUrl: string, supabaseKey: string) {
 
         // Insert user data into users table
         console.log(`Creating user profile for ${user.email}...`)
-        const { error: userError } = await supabase.from("users").insert([
+        const { error: userError } = await supabase.from("profiles").insert([
           {
             id: userId,
             email: user.email,
@@ -478,6 +544,151 @@ export async function seedDatabase(supabaseUrl: string, supabaseKey: string) {
             category: "Technology",
             intent: "seeker",
             description: "Learning iOS app development with Swift.",
+          },
+        ],
+      },
+      {
+        user_email: "priya.sharma@example.com",
+        skills: [
+          {
+            skill_name: "UX Strategy",
+            category: "Design",
+            intent: "provider",
+            description: "End-to-end UX planning, wireframes, and product discovery sessions.",
+          },
+          {
+            skill_name: "Design Systems",
+            category: "Design",
+            intent: "provider",
+            description: "Build reusable design systems and component libraries for product teams.",
+          },
+          {
+            skill_name: "Pitch Deck Design",
+            category: "Business",
+            intent: "provider",
+            description: "Create compelling investor pitch decks and brand storytelling aids.",
+          },
+          {
+            skill_name: "Public Speaking",
+            category: "Business",
+            intent: "seeker",
+            description: "Seeking to improve my stage presentation and demo delivery skills.",
+          },
+        ],
+      },
+      {
+        user_email: "rahul.verma@example.com",
+        skills: [
+          {
+            skill_name: "SEO Strategy",
+            category: "Business",
+            intent: "provider",
+            description: "Optimize content and search performance for high-impact growth.",
+          },
+          {
+            skill_name: "Social Media Campaigns",
+            category: "Business",
+            intent: "provider",
+            description: "Design user acquisition campaigns across Instagram, LinkedIn, and YouTube.",
+          },
+          {
+            skill_name: "Google Analytics",
+            category: "Business",
+            intent: "provider",
+            description: "Track performance metrics and convert traffic into leads.",
+          },
+          {
+            skill_name: "Content Writing",
+            category: "Business",
+            intent: "seeker",
+            description: "Learning to write sharper blog content for SaaS and startup brands.",
+          },
+        ],
+      },
+      {
+        user_email: "neha.gupta@example.com",
+        skills: [
+          {
+            skill_name: "Spoken English",
+            category: "Languages",
+            intent: "provider",
+            description: "Improve spoken English, pronunciation, and fluency for interviews.",
+          },
+          {
+            skill_name: "Interview Coaching",
+            category: "Business",
+            intent: "provider",
+            description: "Practice technical and HR interview rounds with confidence.",
+          },
+          {
+            skill_name: "Resume Review",
+            category: "Business",
+            intent: "provider",
+            description: "Optimize LinkedIn profiles and resumes for corporate hiring.",
+          },
+          {
+            skill_name: "Public Relations",
+            category: "Business",
+            intent: "seeker",
+            description: "Looking to learn PR and personal branding for events.",
+          },
+        ],
+      },
+      {
+        user_email: "aman.rathi@example.com",
+        skills: [
+          {
+            skill_name: "Yoga Flow",
+            category: "Fitness & Health",
+            intent: "provider",
+            description: "Beginner and intermediate yoga sequences for flexibility and calm.",
+          },
+          {
+            skill_name: "Meditation",
+            category: "Fitness & Health",
+            intent: "provider",
+            description: "Guided meditation for stress relief and mental clarity.",
+          },
+          {
+            skill_name: "Wellness Coaching",
+            category: "Fitness & Health",
+            intent: "provider",
+            description: "Health routines, diet habits, and lifestyle coaching.",
+          },
+          {
+            skill_name: "Nutrition Planning",
+            category: "Fitness & Health",
+            intent: "seeker",
+            description: "Want to learn balanced meal planning for busy schedules.",
+          },
+        ],
+      },
+      {
+        user_email: "sneha.pandey@example.com",
+        skills: [
+          {
+            skill_name: "Classical Singing",
+            category: "Music",
+            intent: "provider",
+            description: "Indian classical vocal training for beginners and advanced learners.",
+          },
+          {
+            skill_name: "Ghazal Singing",
+            category: "Music",
+            intent: "provider",
+            description: "Emotional ghazal performance techniques and voice training.",
+          },
+          {
+            skill_name: "Hindi Poetry",
+            category: "Languages",
+            intent: "provider",
+            description: "Write and perform Hindi poetry with rhythm and expression.",
+          },
+          {
+            skill_name: "Keyboard Basics",
+            category: "Music",
+            intent: "seeker",
+            description: "Learning piano and keyboard fundamentals for classical music.",
           },
         ],
       },

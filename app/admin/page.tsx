@@ -42,7 +42,7 @@ export default function AdminPage() {
       }
 
       try {
-        const { data, error } = await supabase.from("users").select("*").eq("id", session.user.id).single()
+        const { data, error } = await supabase.from("profiles").select("*").eq("id", session.user.id).single()
 
         if (error) throw error
 
@@ -542,7 +542,7 @@ export default function AdminPage() {
                     <Button
                       onClick={handleSeedDatabase}
                       disabled={isSeeding}
-                      className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white"
+                      className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 text-white"
                     >
                       {isSeeding ? (
                         <>
@@ -922,3 +922,4 @@ export default function AdminPage() {
     </div>
   )
 }
+

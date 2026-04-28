@@ -83,7 +83,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold mb-10 text-center bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent"
+              className="text-3xl md:text-4xl font-bold mb-10 text-center bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent"
             >
               Featured Professionals
             </motion.h2>
@@ -94,35 +94,35 @@ export default function Home() {
         {/* Enhanced Call to Action Section */}
         <div className="relative py-24 overflow-hidden">
           {/* Background with dark mode support */}
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-800 dark:to-blue-800">
+          <div className="absolute inset-0 bg-gradient-to-r from-maroon to-olive dark:from-purple-800 dark:to-blue-800">
             {/* Animated particles */}
             <div className="absolute inset-0 bg-[url('/particles-light.svg')] dark:bg-[url('/particles-dark.svg')] opacity-20 bg-repeat"></div>
           </div>
           
           <div className="container mx-auto px-4 relative z-10">
             <motion.div
-              variants={staggerContainer}
+              variants={staggerContainer as any}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               className="text-center"
             >
               <motion.h2 
-                variants={fadeInUp}
+                variants={fadeInUp as any}
                 className="text-3xl md:text-5xl font-bold mb-6 text-white"
               >
                 Ready to Get Started?
               </motion.h2>
               
               <motion.p 
-                variants={fadeInUp}
+                variants={fadeInUp as any}
                 className="text-xl mb-10 max-w-2xl mx-auto text-white/90"
               >
                 Join our community of skilled professionals and clients today. Share your expertise or find the perfect professional for your needs.
               </motion.p>
               
               <motion.div 
-                variants={fadeInUp}
+                variants={fadeInUp as any}
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <Button
@@ -183,7 +183,7 @@ export default function Home() {
                 {
                   name: "Sarah J.",
                   role: "Graphic Designer",
-                  quote: "SkillLink has transformed how I find new clients. The platform is intuitive and the booking process is seamless.",
+                  quote: "skillpara has transformed how I find new clients. The platform is intuitive and the booking process is seamless.",
                 },
                 {
                   name: "Michael T.",
@@ -228,3 +228,4 @@ export default function Home() {
     </div>
   )
 }
+

@@ -18,7 +18,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://skilllink-one.vercel.app';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://skillpara.vercel.app"
 
 export default function SignupPage() {
   const [email, setEmail] = useState("")
@@ -59,20 +59,19 @@ export default function SignupPage() {
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/api/auth/callback`,
+          emailRedirectTo: `${SITE_URL}/api/auth/callback`,
           data: {
             name,
             role,
           },
-          emailRedirectTo: `${SITE_URL}/dashboard`,
         },
       })
 
-      if (signUpError) {
+      if (error) {
         let errorMessage = "An error occurred during signup. Please try again."
         
-        if (typeof signUpError === 'object' && signUpError !== null) {
-          switch (signUpError.message) {
+        if (typeof error === 'object' && error !== null) {
+          switch (error.message) {
             case "User already registered":
               errorMessage = "An account with this email already exists. Please log in instead."
               break
@@ -86,7 +85,7 @@ export default function SignupPage() {
               errorMessage = "Too many signup attempts. Please try again later"
               break
             default:
-              errorMessage = signUpError.message || errorMessage
+              errorMessage = error.message || errorMessage
           }
         }
         
@@ -99,10 +98,39 @@ export default function SignupPage() {
         return
       }
 
+      const userId = data.user.id
+      const welcomeCredits = 50
+
+      // Create profile entry
+      const { error: profileError } = await supabase
+        .from("profiles")
+        .insert([{
+          id: userId,
+          email: email,
+          name: name,
+          role: role,
+          current_mode: role === "provider" ? "provider" : "learner",
+          profile_image: "/placeholder.svg?height=200&width=200",
+          bio: "",
+          phone: "",
+          location: "",
+        }])
+
+      if (profileError) {
+        console.warn("Could not create profile on signup:", profileError)
+      }
+
+      const { error: walletError } = await supabase
+        .from("credits_wallet")
+        .insert([{ user_id: userId, balance: welcomeCredits, total_earned: welcomeCredits }])
+
+      if (walletError) {
+        console.warn("Could not create wallet on signup:", walletError)
+      }
+
       toast({
         title: "Account created!",
         description: "Please check your email to confirm your account. The link will expire in 24 hours.",
-
       })
 
       // Redirect to verify email page with success message
@@ -144,9 +172,7 @@ export default function SignupPage() {
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-
-          emailRedirectTo: `${window.location.origin}/api/auth/callback`,
-
+          emailRedirectTo: `${SITE_URL}/api/auth/callback`,
         },
       })
 
@@ -183,7 +209,7 @@ export default function SignupPage() {
           <Card className="border-2 border-purple-100 shadow-lg">
             <CardHeader className="space-y-1">
               <CardTitle className="text-2xl font-bold text-center">Create an account</CardTitle>
-              <CardDescription className="text-center">Join SkillLink to start exchanging skills</CardDescription>
+              <CardDescription className="text-center">Join skillpara to start exchanging skills</CardDescription>
             </CardHeader>
             <Tabs defaultValue="email" className="w-full">
               <TabsList className="grid w-full grid-cols-2 mb-4">
@@ -269,7 +295,7 @@ export default function SignupPage() {
                           variant={role === "both" ? "default" : "outline"}
                           className={
                             role === "both"
-                              ? "bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                              ? "bg-gradient-to-r from-maroon to-olive hover:from-maroon hover:to-olive"
                               : ""
                           }
                           onClick={() => setRole("both")}
@@ -282,7 +308,7 @@ export default function SignupPage() {
                   <CardFooter className="flex flex-col space-y-4">
                     <Button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                      className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
                       disabled={isLoading}
                     >
                       {isLoading ? "Creating account..." : "Sign Up"}
@@ -314,7 +340,7 @@ export default function SignupPage() {
                   <CardFooter className="flex flex-col space-y-4">
                     <Button
                       type="submit"
-                      className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                      className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
                       disabled={isLoading}
                     >
                       {isLoading ? "Sending link..." : "Send Magic Link"}
@@ -336,3 +362,4 @@ export default function SignupPage() {
     </div>
   )
 }
+

@@ -147,7 +147,7 @@ export function CategorySection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-3xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text text-transparent"
+            className="text-3xl font-bold mb-3 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent"
           >
             Browse Categories
           </motion.h2>
@@ -165,7 +165,7 @@ export function CategorySection() {
             whileInView={{ scaleX: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true }}
-            className="h-1 w-16 bg-gradient-to-r from-purple-500 to-blue-500 dark:from-purple-400 dark:to-blue-400 rounded-full mt-4 mx-auto"
+            className="h-1 w-16 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive rounded-full mt-4 mx-auto"
           ></motion.div>
         </div>
 
@@ -174,7 +174,7 @@ export function CategorySection() {
         <div className="hidden md:block absolute -bottom-10 -right-20 w-72 h-72 bg-blue-100 dark:bg-blue-900/20 rounded-full blur-3xl opacity-40 pointer-events-none"></div>
         
         <motion.div 
-          variants={containerVariants}
+          variants={containerVariants as any}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
@@ -183,7 +183,7 @@ export function CategorySection() {
           {categories.map((category) => (
             <motion.div
               key={category.name}
-              variants={itemVariants}
+              variants={itemVariants as any}
               whileHover={{ 
                 y: -6, 
                 transition: { 
@@ -209,7 +209,7 @@ export function CategorySection() {
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
                   {category.count} {category.count === 1 ? "provider" : "providers"}
                 </p>
-                <div className="w-12 h-0.5 bg-gradient-to-r from-purple-500 to-blue-500 dark:from-purple-400 dark:to-blue-400 rounded mt-1 transform scale-0 group-hover:scale-100 transition-transform duration-300 opacity-90"></div>
+                <div className="w-12 h-0.5 bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive rounded mt-1 transform scale-0 group-hover:scale-100 transition-transform duration-300 opacity-90"></div>
               </div>
             </motion.div>
           ))}
@@ -224,7 +224,7 @@ export function CategorySection() {
         >
           <Button 
             onClick={() => router.push('/explore')}
-            className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md hover:shadow-lg hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900 hover:scale-105"
+            className="inline-flex items-center px-6 py-3 text-sm font-medium rounded-lg bg-gradient-to-r from-maroon to-olive text-white shadow-md hover:shadow-lg hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400 focus:ring-offset-2 dark:focus:ring-offset-gray-900 hover:scale-105"
           >
             View All Categories
             <ArrowRight className="ml-2 h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-300" />
@@ -234,3 +234,4 @@ export function CategorySection() {
     </section>
   )
 }
+

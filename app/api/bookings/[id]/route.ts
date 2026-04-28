@@ -2,10 +2,11 @@ import { NextResponse } from "next/server"
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs"
 import { cookies } from "next/headers"
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const cookieStore = cookies()
     const supabase = createRouteHandlerClient({ cookies: () => cookieStore })
+    const { id: bookingId } = await params
 
     // Check if user is authenticated
     const {
@@ -16,7 +17,6 @@ export async function PATCH(request: Request, { params }: { params: { id: string
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const bookingId = params.id
     const { status, payment_status } = await request.json()
 
     // Check if booking exists and user has permission

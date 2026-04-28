@@ -44,19 +44,28 @@ export default function ProviderPage() {
 
         if (session) {
           const { data: userData, error: userError } = await supabase
-            .from("users")
+            .from("profiles")
             .select("*, skills(*)")
             .eq("id", session.user.id)
             .single()
 
           if (!userError) {
-            setCurrentUser(userData)
+            const { data: walletData } = await supabase
+              .from("credits_wallet")
+              .select("balance")
+              .eq("user_id", session.user.id)
+              .single()
+
+            setCurrentUser({
+              ...userData,
+              wallet_balance: walletData?.balance ?? 0,
+            })
           }
         }
 
         // Fetch provider data
         const { data, error } = await supabase
-          .from("users")
+          .from("profiles")
           .select(`
             *,
             skills (id, skill_name, category, description, intent),
@@ -137,8 +146,8 @@ export default function ProviderPage() {
         description: "Your request has been sent successfully.",
       })
 
-      // Handle payment flow for non-skill-swap bookings
-      if (!bookingData.is_skill_swap) {
+      // Handle payment flow for non-skill-swap bookings that still require payment
+      if (!bookingData.is_skill_swap && bookingData.payment_status !== 'paid') {
         setSelectedBooking(bookingData)
         setIsPaymentModalOpen(true)
       }
@@ -243,9 +252,19 @@ export default function ProviderPage() {
                       ))}
                   </div>
                   <div className="space-y-3 w-full">
+                    {currentUser?.wallet_balance !== undefined && (
+                      <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-4 bg-gray-50 dark:bg-gray-900">
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                          Your wallet balance: <span className="font-semibold text-indigo-700 dark:text-indigo-300">{currentUser.wallet_balance} credits</span>
+                        </p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          You can learn for free by swapping skills, or use credits when no direct match is available.
+                        </p>
+                      </div>
+                    )}
                     <Button
                       onClick={() => setIsBookingModalOpen(true)}
-                      className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                      className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700"
                     >
                       Book Session
                     </Button>

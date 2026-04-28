@@ -166,7 +166,7 @@ export function Hero3D() {
             transition={{ duration: 0.8, delay: 0.7 }}
           >
             <button 
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-purple-600 to-blue-600 text-white font-semibold hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all shadow-lg"
+              className="px-8 py-3 rounded-full bg-gradient-to-r from-maroon to-olive text-white font-semibold hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all shadow-lg"
               onClick={() => router.push('/explore')}
             >
               Get Started
