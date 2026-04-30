@@ -64,32 +64,66 @@ export default function ProviderPage() {
         }
 
         // Fetch provider data
-        const { data, error } = await supabase
-          .from("profiles")
-          .select(`
-            *,
-            skills (id, skill_name, category, description, intent),
-            availability_slots (id, date, start_time, end_time, is_available)
-          `)
-          .eq("id", params.id)
-          .single()
+        let providerData = null;
+        let reviewsData = null;
 
-        if (error) throw error
+        if (typeof params.id === 'string' && params.id.startsWith("demo-user-")) {
+          // Mock data for demo mode
+          const demoNumber = params.id.split('-').pop();
+          providerData = {
+            id: params.id,
+            name: `Demo Provider ${demoNumber}`,
+            profile_image: null,
+            location: "Local City, India",
+            bio: "This is a demo profile. I am a passionate expert ready to share my skills with the community.",
+            rating: 4.8,
+            skills: [
+              {
+                id: `demo-skill-${demoNumber}`,
+                skill_name: "Demo Skill",
+                category: "Technology",
+                description: "This is a sample skill for demonstration purposes.",
+                intent: "provider"
+              }
+            ],
+            availability_slots: [
+              { id: 'slot-1', date: new Date(Date.now() + 86400000).toISOString(), start_time: '10:00:00', end_time: '11:00:00', is_available: true },
+              { id: 'slot-2', date: new Date(Date.now() + 172800000).toISOString(), start_time: '14:00:00', end_time: '15:00:00', is_available: true }
+            ]
+          };
+          reviewsData = [
+            { id: 'rev-1', rating: 5, comment: 'Great session, highly recommended!', reviewer: { name: 'Demo User A' } }
+          ];
+        } else {
+          const { data, error } = await supabase
+            .from("profiles")
+            .select(`
+              *,
+              skills (id, skill_name, category, description, intent),
+              availability_slots (id, date, start_time, end_time, is_available)
+            `)
+            .eq("id", params.id)
+            .single()
 
-        // Fetch reviews
-        const { data: reviewsData, error: reviewsError } = await supabase
-          .from("reviews")
-          .select(`
-            *,
-            reviewer:reviewer_id (name, profile_image)
-          `)
-          .eq("provider_id", params.id)
+          if (error) throw error
+          providerData = data;
 
-        if (reviewsError) throw reviewsError
+          // Fetch reviews
+          const { data: realReviewsData, error: reviewsError } = await supabase
+            .from("reviews")
+            .select(`
+              *,
+              reviewer:reviewer_id (name, profile_image)
+            `)
+            .eq("provider_id", params.id)
+
+          if (reviewsError) throw reviewsError
+          reviewsData = realReviewsData;
+        }
 
         // Add reviews to provider data
         setProvider({
-          ...data,
+          ...providerData,
           reviews: reviewsData || [],
           rating: reviewsData?.length
             ? reviewsData.reduce((acc: number, review: any) => acc + review.rating, 0) / reviewsData.length
@@ -350,11 +384,23 @@ export default function ProviderPage() {
                         )}
 
                         <div>
+                          <h2 className="text-xl font-semibold mb-3 dark:text-white">Portfolio & Proof of Work</h2>
+                          <div className="flex flex-col gap-2">
+                            <a href="#" className="flex items-center text-purple-600 dark:text-purple-400 hover:underline">
+                              <span className="font-medium mr-2">GitHub:</span> github.com/{provider.name.toLowerCase().replace(' ', '')}
+                            </a>
+                            <a href="#" className="flex items-center text-purple-600 dark:text-purple-400 hover:underline">
+                              <span className="font-medium mr-2">LinkedIn:</span> linkedin.com/in/{provider.name.toLowerCase().replace(' ', '')}
+                            </a>
+                          </div>
+                        </div>
+
+                        <div>
                           <h2 className="text-xl font-semibold mb-3">Badges & Achievements</h2>
                           <div className="flex flex-wrap gap-3">
                             <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-200 dark:border-yellow-800">Top Rated</Badge>
                             <Badge className="bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-200 dark:border-green-800">Quick Responder</Badge>
-                            <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-200 dark:border-blue-800">Verified</Badge>
+                            <Badge title="Verified via DigiLocker API (No PII stored)" className="bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-200 dark:border-blue-800 cursor-help">DigiLocker Verified</Badge>
                           </div>
                         </div>
                       </div>

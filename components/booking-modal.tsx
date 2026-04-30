@@ -170,12 +170,23 @@ export function BookingModal({ provider, currentUser, isOpen, onClose, onSuccess
 
         if (deductError) throw deductError
 
+        const { data: providerWallet } = await supabase
+          .from('credits_wallet')
+          .select('balance, total_earned')
+          .eq('user_id', provider.id)
+          .single()
+          
+        const newBalance = (providerWallet?.balance || 0) + CREDIT_COST;
+        const newTotal = (providerWallet?.total_earned || 0) + CREDIT_COST;
+
         const { error: providerWalletError } = await supabase
           .from('credits_wallet')
-          .update({ updated_at: new Date().toISOString() })
+          .update({ 
+            balance: newBalance,
+            total_earned: newTotal,
+            updated_at: new Date().toISOString() 
+          })
           .eq('user_id', provider.id)
-          .increment('balance', CREDIT_COST)
-          .increment('total_earned', CREDIT_COST)
 
         if (providerWalletError) {
           console.warn('Provider wallet update failed:', providerWalletError)
