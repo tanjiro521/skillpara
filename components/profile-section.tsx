@@ -35,9 +35,9 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const supabase = createBrowserSupabaseClient()
 
-  // Update form data when user prop changes
+  // Initialize form data only once or when explicitly not editing
   useEffect(() => {
-    if (user) {
+    if (user && !isEditing) {
       setFormData({
         name: user.name || "",
         email: user.email || "",
@@ -47,7 +47,7 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
         profile_image: user.profile_image || "",
       })
     }
-  }, [user])
+  }, [user, isEditing])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target

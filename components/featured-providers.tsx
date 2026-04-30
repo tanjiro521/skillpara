@@ -18,6 +18,10 @@ interface Provider {
   rating: number
   skills: string[]
   location: string
+  distance?: string
+  payment_mode?: string
+  trust_score?: number
+  verified?: boolean
   reviewCount: number
 }
 
@@ -38,42 +42,58 @@ export function FeaturedProviders() {
         const mockProviders = [
           {
             id: "1",
-            name: "Emma Johnson",
+            name: "Rahul Verma",
             profile_image: "/placeholder.svg?height=128&width=128",
-            bio: "Professional piano teacher with over 10 years of experience.",
+            bio: "Passionate guitar player. Will teach you chords in exchange for coding lessons.",
             rating: 4.9,
-            skills: ["Piano", "Music Theory", "Composition"],
-            location: "San Francisco, CA",
-            reviewCount: 48
+            skills: ["Acoustic Guitar", "Music Theory"],
+            location: "Koramangala, BLR",
+            distance: "1.2 km near you",
+            payment_mode: "Skill Swap",
+            trust_score: 92,
+            verified: true,
+            reviewCount: 14
           },
           {
             id: "2",
-            name: "Alex Chen",
+            name: "Sanjay Electric",
             profile_image: "/placeholder.svg?height=128&width=128",
-            bio: "Full-stack developer specializing in React and Node.js.",
+            bio: "Licensed electrician for all home repairs and wiring.",
             rating: 4.8,
-            skills: ["Web Development", "React", "JavaScript"],
-            location: "New York, NY",
-            reviewCount: 36
+            skills: ["Electrical Repair", "Wiring", "Installation"],
+            location: "Indiranagar, BLR",
+            distance: "3.5 km near you",
+            payment_mode: "₹ or Tokens",
+            trust_score: 98,
+            verified: true,
+            reviewCount: 156
           },
           {
             id: "3",
-            name: "Maya Patel",
+            name: "Priya Tech",
             profile_image: "/placeholder.svg?height=128&width=128",
-            bio: "Certified yoga instructor focusing on mind-body wellness.",
+            bio: "Senior Dev offering React & Next.js mentorship.",
             rating: 5.0,
-            skills: ["Yoga", "Meditation", "Fitness"],
-            location: "Austin, TX",
-            reviewCount: 52
+            skills: ["React", "Next.js", "System Design"],
+            location: "HSR Layout, BLR",
+            distance: "4.1 km near you",
+            payment_mode: "Tokens Only",
+            trust_score: 87,
+            verified: false,
+            reviewCount: 32
           },
           {
             id: "4",
-            name: "Daniel Kim",
+            name: "Amit Fitness",
             profile_image: "/placeholder.svg?height=128&width=128",
-            bio: "Professional chef with expertise in Asian fusion cuisine.",
+            bio: "Personal trainer focusing on calisthenics and mobility.",
             rating: 4.7,
-            skills: ["Cooking", "Baking", "Knife Skills"],
-            location: "Chicago, IL",
+            skills: ["Calisthenics", "Mobility", "Diet"],
+            location: "Whitefield, BLR",
+            distance: "6.0 km near you",
+            payment_mode: "Skill Swap",
+            trust_score: 81,
+            verified: true,
             reviewCount: 29
           }
         ]
@@ -252,16 +272,40 @@ export function FeaturedProviders() {
                         </Avatar>
                       </div>
                       <div className="pt-16 px-5 pb-5 flex-grow flex flex-col">
-                        <h3 className="text-xl font-semibold text-center mb-1.5 text-gray-800 dark:text-gray-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                        <h3 className="text-xl font-semibold text-center mb-1.5 text-gray-800 dark:text-gray-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex items-center justify-center gap-1">
                           {provider.name}
+                          {provider.verified && (
+                            <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          )}
                         </h3>
                         <div className="flex items-center justify-center mb-3">
                           {renderRating(provider.rating, provider.reviewCount)}
                         </div>
-                        <div className="flex items-center justify-center text-xs text-gray-500 dark:text-gray-400 mb-3">
-                          <MapPin className="h-3 w-3 mr-1" />
-                          {provider.location}
+                        <div className="flex flex-col items-center justify-center text-xs text-gray-500 dark:text-gray-400 mb-3 gap-1">
+                          <div className="flex items-center">
+                            <MapPin className="h-3 w-3 mr-1 text-red-500" />
+                            {provider.location}
+                          </div>
+                          {provider.distance && <span className="text-green-600 dark:text-green-400 font-medium">{provider.distance}</span>}
                         </div>
+                        
+                        {provider.trust_score && (
+                          <div className="flex justify-center mb-2">
+                            <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:border-blue-800/70 dark:text-blue-300">
+                              🛡️ Trust Score: {provider.trust_score}%
+                            </Badge>
+                          </div>
+                        )}
+                        {provider.payment_mode && (
+                          <div className="flex justify-center mb-3">
+                            <Badge className="bg-gradient-to-r from-maroon to-olive text-white border-none shadow-sm">
+                              {provider.payment_mode}
+                            </Badge>
+                          </div>
+                        )}
+
                         <div className="flex flex-wrap justify-center gap-1.5 mb-4">
                           {provider.skills.map((skill, index) => (
                             <Badge 
@@ -276,12 +320,12 @@ export function FeaturedProviders() {
                         <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 text-center mb-4">
                           {provider.bio}
                         </p>
-                        <div className="mt-auto flex justify-center">
+                        <div className="mt-auto flex justify-center w-full">
                           <Button 
-                            className="bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-sm hover:shadow-md transition-shadow"
+                            className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-sm hover:shadow-md transition-shadow"
                             size="sm"
                           >
-                            View Profile
+                            Book Session
                           </Button>
                         </div>
                       </div>
@@ -315,16 +359,41 @@ export function FeaturedProviders() {
                               </AvatarFallback>
                             </Avatar>
                           </div>
-                          <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100">
+                          <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100 flex items-center justify-center gap-1">
                             {providers[currentSlide].name}
+                            {providers[currentSlide].verified && (
+                              <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                            )}
                           </h3>
                           <div className="flex items-center mb-3">
                             {renderRating(providers[currentSlide].rating, providers[currentSlide].reviewCount)}
                           </div>
-                          <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-4">
-                            <MapPin className="h-4 w-4 mr-1" />
-                            {providers[currentSlide].location}
+                          
+                          <div className="flex flex-col items-center justify-center text-sm text-gray-500 dark:text-gray-400 mb-4 gap-1">
+                            <div className="flex items-center">
+                              <MapPin className="h-4 w-4 mr-1 text-red-500" />
+                              {providers[currentSlide].location}
+                            </div>
+                            {providers[currentSlide].distance && <span className="text-green-600 dark:text-green-400 font-medium">{providers[currentSlide].distance}</span>}
                           </div>
+
+                          {providers[currentSlide].trust_score && (
+                            <div className="flex justify-center mb-2">
+                              <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:border-blue-800/70 dark:text-blue-300">
+                                🛡️ Trust Score: {providers[currentSlide].trust_score}%
+                              </Badge>
+                            </div>
+                          )}
+                          {providers[currentSlide].payment_mode && (
+                            <div className="flex justify-center mb-4">
+                              <Badge className="bg-gradient-to-r from-maroon to-olive text-white border-none shadow-sm">
+                                {providers[currentSlide].payment_mode}
+                              </Badge>
+                            </div>
+                          )}
+
                           <div className="flex flex-wrap justify-center gap-2 mb-4">
                             {providers[currentSlide].skills.map((skill, index) => (
                               <Badge 
@@ -342,7 +411,7 @@ export function FeaturedProviders() {
                           <Button 
                             className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white shadow-md"
                           >
-                            View Profile
+                            Book Session
                           </Button>
                         </div>
                       </div>

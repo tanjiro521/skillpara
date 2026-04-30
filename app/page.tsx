@@ -67,9 +67,33 @@ export default function Home() {
         
         {/* Enhanced Category Section */}
         <div className="my-20">
-          
-            
           <CategorySection />
+        </div>
+
+        {/* 3 Ways to Learn Section */}
+        <div className="py-16 bg-gradient-to-b from-transparent to-purple-50/30 dark:to-purple-900/10">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent">
+              3 Ways to Learn & Connect
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700 text-center transition-transform hover:-translate-y-2">
+                <div className="w-16 h-16 mx-auto bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mb-6 text-3xl">🔄</div>
+                <h3 className="text-xl font-bold mb-3">Skill Swap</h3>
+                <p className="text-gray-600 dark:text-gray-300">Teach what you know in exchange for learning what you don't. Zero money involved.</p>
+              </div>
+              <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700 text-center transition-transform hover:-translate-y-2">
+                <div className="w-16 h-16 mx-auto bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center mb-6 text-3xl">🪙</div>
+                <h3 className="text-xl font-bold mb-3">Tokens</h3>
+                <p className="text-gray-600 dark:text-gray-300">Earn tokens by teaching others, then spend them to book premium sessions.</p>
+              </div>
+              <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700 text-center transition-transform hover:-translate-y-2">
+                <div className="w-16 h-16 mx-auto bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mb-6 text-3xl">₹</div>
+                <h3 className="text-xl font-bold mb-3">Direct Pay</h3>
+                <p className="text-gray-600 dark:text-gray-300">Need an expert right now? Hire verified local professionals instantly.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* How It Works Section with dark mode support */}

@@ -149,7 +149,7 @@ export function Hero3D() {
             animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             >
-            Connect with Skilled Professionals
+            Exchange Skills. Earn Tokens. Learn Locally.
             </motion.h1>
           <motion.p 
             className="text-lg md:text-xl mb-8 text-foreground/80"
@@ -157,7 +157,7 @@ export function Hero3D() {
             animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Find experts for any skill you need or share your expertise with others
+            Master new abilities through 1-on-1 skill swapping, earn tokens by teaching, or hire local professionals directly.
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row justify-center gap-4"
@@ -169,13 +169,13 @@ export function Hero3D() {
               className="px-8 py-3 rounded-full bg-gradient-to-r from-maroon to-olive text-white font-semibold hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all shadow-lg"
               onClick={() => router.push('/explore')}
             >
-              Get Started
+              Explore Skills
             </button>
             <button 
               className="px-8 py-3 rounded-full border-2 border-purple-600 text-foreground font-semibold hover:bg-purple-50 dark:hover:bg-gray-800 transform hover:scale-105 transition-all"
               onClick={scrollToHowItWorks}
             >
-              Learn More
+              Start Teaching
             </button>
           </motion.div>
         </div>
