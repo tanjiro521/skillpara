@@ -135,3 +135,8 @@ ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS last_login_ip TEXT;
 -- Add Escrow to wallet
 ALTER TABLE public.credits_wallet ADD COLUMN IF NOT EXISTS tokens_in_escrow INT DEFAULT 0;
 
+
+-- 6. ADD PORTFOLIO LINKS & VERIFICATION TO PROFILES
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS github_url TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS linkedin_url TEXT;
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS digilocker_verified BOOLEAN DEFAULT FALSE;

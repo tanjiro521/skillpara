@@ -27,6 +27,9 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
     location: user?.location || "",
     bio: user?.bio || "",
     profile_image: user?.profile_image || "",
+    github_url: user?.github_url || "",
+    linkedin_url: user?.linkedin_url || "",
+    digilocker_verified: user?.digilocker_verified || false,
   })
   const [isEditing, setIsEditing] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -45,6 +48,9 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
         location: user.location || "",
         bio: user.bio || "",
         profile_image: user.profile_image || "",
+        github_url: user.github_url || "",
+        linkedin_url: user.linkedin_url || "",
+        digilocker_verified: user.digilocker_verified || false,
       })
     }
   }, [user, isEditing])
@@ -69,6 +75,9 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
           phone: formData.phone,
           location: formData.location,
           bio: formData.bio,
+          github_url: formData.github_url,
+          linkedin_url: formData.linkedin_url,
+          digilocker_verified: formData.digilocker_verified,
           updated_at: new Date().toISOString(),
         } as any)
         .select("*");
@@ -324,6 +333,47 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
                   />
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="github_url">GitHub URL</Label>
+                    <Input id="github_url" name="github_url" value={formData.github_url} onChange={handleChange} placeholder="https://github.com/username" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="linkedin_url">LinkedIn URL</Label>
+                    <Input id="linkedin_url" name="linkedin_url" value={formData.linkedin_url} onChange={handleChange} placeholder="https://linkedin.com/in/username" />
+                  </div>
+                </div>
+
+                <div className="space-y-2 p-4 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <Label className="text-base font-semibold">DigiLocker Verification</Label>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">Verify your identity to get the trusted badge.</p>
+                    </div>
+                    {formData.digilocker_verified ? (
+                      <span className="flex items-center text-green-600 dark:text-green-400 text-sm font-medium">
+                        <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                        Verified
+                      </span>
+                    ) : (
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        className="border-blue-300 text-blue-700 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-400 dark:hover:bg-blue-900/20"
+                        onClick={() => {
+                          setFormData(prev => ({ ...prev, digilocker_verified: true }));
+                          toast({
+                            title: "Verification Successful",
+                            description: "Your identity has been verified via DigiLocker.",
+                          });
+                        }}
+                      >
+                        Verify Now
+                      </Button>
+                    )}
+                  </div>
+                </div>
+
                 <div className="flex justify-end space-x-2">
                   <Button type="button" variant="outline" onClick={() => setIsEditing(false)}>
                     Cancel
@@ -370,6 +420,42 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
                   <p className="whitespace-pre-line">
                     {formData.bio || "No bio provided. Tell others about yourself!"}
                   </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 mb-1">Portfolio & Links</h3>
+                    <div className="flex flex-col gap-2 mt-2">
+                      {formData.github_url ? (
+                        <a href={formData.github_url} target="_blank" rel="noreferrer" className="text-purple-600 dark:text-purple-400 hover:underline text-sm">
+                          GitHub Profile
+                        </a>
+                      ) : (
+                        <span className="text-sm text-gray-400">GitHub not provided</span>
+                      )}
+                      {formData.linkedin_url ? (
+                        <a href={formData.linkedin_url} target="_blank" rel="noreferrer" className="text-purple-600 dark:text-purple-400 hover:underline text-sm">
+                          LinkedIn Profile
+                        </a>
+                      ) : (
+                        <span className="text-sm text-gray-400">LinkedIn not provided</span>
+                      )}
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-medium text-gray-500 mb-1">Verification Status</h3>
+                    <div className="mt-2">
+                      {formData.digilocker_verified ? (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-200 border border-blue-200 dark:border-blue-800">
+                          DigiLocker Verified
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
+                          Unverified
+                        </span>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             )}

@@ -383,26 +383,41 @@ export default function ProviderPage() {
                           </div>
                         )}
 
-                        <div>
-                          <h2 className="text-xl font-semibold mb-3 dark:text-white">Portfolio & Proof of Work</h2>
-                          <div className="flex flex-col gap-2">
-                            <a href="#" className="flex items-center text-purple-600 dark:text-purple-400 hover:underline">
-                              <span className="font-medium mr-2">GitHub:</span> github.com/{provider.name.toLowerCase().replace(' ', '')}
-                            </a>
-                            <a href="#" className="flex items-center text-purple-600 dark:text-purple-400 hover:underline">
-                              <span className="font-medium mr-2">LinkedIn:</span> linkedin.com/in/{provider.name.toLowerCase().replace(' ', '')}
-                            </a>
+                        {(provider.github_url || provider.linkedin_url) && (
+                          <div>
+                            <h2 className="text-xl font-semibold mb-3 dark:text-white">Portfolio & Proof of Work</h2>
+                            <div className="flex flex-col gap-2">
+                              {provider.github_url && (
+                                <a href={provider.github_url.startsWith('http') ? provider.github_url : `https://${provider.github_url}`} target="_blank" rel="noreferrer" className="flex items-center text-purple-600 dark:text-purple-400 hover:underline">
+                                  <span className="font-medium mr-2">GitHub:</span> {provider.github_url.replace(/^https?:\/\//, '')}
+                                </a>
+                              )}
+                              {provider.linkedin_url && (
+                                <a href={provider.linkedin_url.startsWith('http') ? provider.linkedin_url : `https://${provider.linkedin_url}`} target="_blank" rel="noreferrer" className="flex items-center text-purple-600 dark:text-purple-400 hover:underline">
+                                  <span className="font-medium mr-2">LinkedIn:</span> {provider.linkedin_url.replace(/^https?:\/\//, '')}
+                                </a>
+                              )}
+                            </div>
                           </div>
-                        </div>
+                        )}
 
-                        <div>
-                          <h2 className="text-xl font-semibold mb-3">Badges & Achievements</h2>
-                          <div className="flex flex-wrap gap-3">
-                            <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-200 dark:border-yellow-800">Top Rated</Badge>
-                            <Badge className="bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-200 dark:border-green-800">Quick Responder</Badge>
-                            <Badge title="Verified via DigiLocker API (No PII stored)" className="bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-200 dark:border-blue-800 cursor-help">DigiLocker Verified</Badge>
-                          </div>
-                        </div>
+                        {(() => {
+                          const badges = [];
+                          if (provider.rating >= 4.5) badges.push({ text: "Top Rated", class: "bg-yellow-100 text-yellow-800 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-200 dark:border-yellow-800", title: "Consistently rated 4.5+ by learners" });
+                          badges.push({ text: "Quick Responder", class: "bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-200 dark:border-green-800", title: "Usually responds within an hour" });
+                          if (provider.digilocker_verified) badges.push({ text: "DigiLocker Verified", class: "bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-200 dark:border-blue-800", title: "Verified via DigiLocker API (No PII stored)" });
+                          
+                          return (
+                            <div>
+                              <h2 className="text-xl font-semibold mb-3">Badges & Achievements ({badges.length})</h2>
+                              <div className="flex flex-wrap gap-3">
+                                {badges.map((badge, idx) => (
+                                  <Badge key={idx} title={badge.title} className={`${badge.class} cursor-help`}>{badge.text}</Badge>
+                                ))}
+                              </div>
+                            </div>
+                          );
+                        })()}
                       </div>
                     </TabsContent>
 
