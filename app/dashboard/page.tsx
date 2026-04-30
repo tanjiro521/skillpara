@@ -9,6 +9,7 @@ import { BookingsList } from "@/components/bookings-list"
 import { AvailabilityCalendar } from "@/components/availability-calendar"
 import { ProfileSection } from "@/components/profile-section"
 import { SkillsSection } from "@/components/skills-section"
+import { SkillsToLearnSection } from "@/components/skills-to-learn-section"
 import { NotificationsList } from "@/components/notifications-list"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
@@ -21,7 +22,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 function TabParamsHandler({ onTabChange }: { onTabChange: (tab: string) => void }) {
   const searchParams = useSearchParams()
   const tabParam = searchParams.get('tab')
-  const validTabs = ['bookings', 'availability', 'profile', 'skills', 'notifications']
+  const validTabs = ['bookings', 'availability', 'profile', 'skills', 'learn-skills', 'notifications']
   
   useEffect(() => {
     if (tabParam && validTabs.includes(tabParam)) {
@@ -35,7 +36,7 @@ function TabParamsHandler({ onTabChange }: { onTabChange: (tab: string) => void 
 export default function DashboardPage() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const validTabs = ['bookings', 'availability', 'profile', 'skills', 'notifications']
+  const validTabs = ['bookings', 'availability', 'profile', 'skills', 'learn-skills', 'notifications']
   const [activeTab, setActiveTab] = useState("bookings")
   const [notifications, setNotifications] = useState<any[]>([])
   const [unreadCount, setUnreadCount] = useState(0)
@@ -364,11 +365,12 @@ export default function DashboardPage() {
               </div>
 
               <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-                <TabsList className="grid grid-cols-5 mb-8 bg-muted/50 dark:bg-gray-800/50">
+                <TabsList className="grid grid-cols-6 mb-8 bg-muted/50 dark:bg-gray-800/50">
                   <TabsTrigger value="bookings" className="data-[state=active]:bg-background dark:data-[state=active]:bg-gray-700 dark:text-gray-200 dark:data-[state=active]:text-white">Bookings</TabsTrigger>
                   <TabsTrigger value="availability" className="data-[state=active]:bg-background dark:data-[state=active]:bg-gray-700 dark:text-gray-200 dark:data-[state=active]:text-white">Availability</TabsTrigger>
                   <TabsTrigger value="profile" className="data-[state=active]:bg-background dark:data-[state=active]:bg-gray-700 dark:text-gray-200 dark:data-[state=active]:text-white">Profile</TabsTrigger>
-                  <TabsTrigger value="skills" className="data-[state=active]:bg-background dark:data-[state=active]:bg-gray-700 dark:text-gray-200 dark:data-[state=active]:text-white">Skills</TabsTrigger>
+                  <TabsTrigger value="skills" className="data-[state=active]:bg-background dark:data-[state=active]:bg-gray-700 dark:text-gray-200 dark:data-[state=active]:text-white">Teach</TabsTrigger>
+                  <TabsTrigger value="learn-skills" className="data-[state=active]:bg-background dark:data-[state=active]:bg-gray-700 dark:text-gray-200 dark:data-[state=active]:text-white">Learn</TabsTrigger>
                   <TabsTrigger value="notifications" className="data-[state=active]:bg-background dark:data-[state=active]:bg-gray-700 dark:text-gray-200 dark:data-[state=active]:text-white">
                     Notifications
                     {unreadCount > 0 && (
@@ -396,6 +398,10 @@ export default function DashboardPage() {
 
                 <TabsContent value="skills">
                   <SkillsSection user={user} />
+                </TabsContent>
+
+                <TabsContent value="learn-skills">
+                  <SkillsToLearnSection user={user} />
                 </TabsContent>
 
                 <TabsContent value="notifications">
