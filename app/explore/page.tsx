@@ -310,7 +310,21 @@ function ExploreContent() {
       
       // Apply filters
       if (searchTerm) {
-        query = query.ilike("skill_name", `%${searchTerm}%`);
+        // Find users with matching names to allow searching by user name
+        const { data: matchingUsers } = await supabase
+          .from("profiles")
+          .select("id")
+          .ilike("name", `%${searchTerm}%`);
+          
+        const matchingUserIds = matchingUsers?.map((u: any) => u.id) || [];
+        const safeSearchTerm = searchTerm.replace(/,/g, ''); // prevent PostgREST syntax errors
+        
+        if (matchingUserIds.length > 0) {
+          const userEqs = matchingUserIds.map((id: string) => `user_id.eq.${id}`).join(',');
+          query = query.or(`skill_name.ilike.%${safeSearchTerm}%,description.ilike.%${safeSearchTerm}%,${userEqs}`);
+        } else {
+          query = query.or(`skill_name.ilike.%${safeSearchTerm}%,description.ilike.%${safeSearchTerm}%`);
+        }
       }
 
       if (category !== "all") {
