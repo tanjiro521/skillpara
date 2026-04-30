@@ -59,17 +59,17 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
     setIsLoading(true);
 
     try {
-      // Use Supabase client directly - more reliable than API route
+      // Use upsert instead of update so it creates the profile if it doesn't exist yet
       const { data, error } = await (supabase as any)
         .from("profiles")
-        .update({
+        .upsert({
+          id: user.id,
           name: formData.name,
           phone: formData.phone,
           location: formData.location,
           bio: formData.bio,
           updated_at: new Date().toISOString(),
         } as any)
-        .eq("id", user.id)
         .select("*");
 
       if (error) {
