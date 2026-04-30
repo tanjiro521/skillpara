@@ -88,7 +88,6 @@ export function SkillsSection({ user }: SkillsSectionProps) {
 
   const handleAddSkill = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted, adding skill:", newSkill)
 
     if (!newSkill.skill_name || !newSkill.category || !user?.id) {
       toast({
@@ -102,67 +101,38 @@ export function SkillsSection({ user }: SkillsSectionProps) {
     try {
       setLoading(true)
       
-      // Create the request body with the correct field names as expected by the API
-      const requestBody = {
-        name: newSkill.skill_name,
+      const skillData = {
+        user_id: user.id,
+        skill_name: newSkill.skill_name,
         category: newSkill.category,
         description: newSkill.description,
-        intent: newSkill.intent // Intent is used directly in the database
+        intent: newSkill.intent
       }
       
-      console.log("Sending request to API with body:", requestBody)
-      
-      // Make an absolute URL to ensure the correct endpoint is called
-      const apiUrl = new URL('/api/skills', window.location.origin).href
-      console.log("API URL:", apiUrl)
-      
-      // Use the API endpoint with absolute URL
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-        // Important: ensure credentials are included for auth
-        credentials: 'include'
-      })
-      
-      console.log("API response status:", response.status)
-      
-      if (response.ok) {
-        const result = await response.json()
-        console.log("API response data:", result)
+      const { data, error } = await supabase
+        .from('skills')
+        .insert([skillData])
+        .select()
         
-        // Update local state with the new skill
-        if (result.skill) {
-          setSkills([result.skill, ...skills])
-        }
+      if (error) throw error
 
-        // Reset form
-        setNewSkill({
-          skill_name: "",
-          category: "",
-          intent: "provider",
-          description: "",
-        })
-
-        setIsAddingSkill(false)
-
-        toast({
-          title: "Skill added",
-          description: "Your skill has been added successfully.",
-        })
-      } else {
-        // Handle HTTP error status
-        let errorMessage = "Failed to add skill";
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.error || errorMessage;
-        } catch (e) {
-          // If JSON parsing fails, use default error message
-        }
-        throw new Error(errorMessage);
+      if (data && data.length > 0) {
+        setSkills([data[0], ...skills])
       }
+
+      setNewSkill({
+        skill_name: "",
+        category: "",
+        intent: "provider",
+        description: "",
+      })
+
+      setIsAddingSkill(false)
+
+      toast({
+        title: "Skill added",
+        description: "Your skill has been added successfully.",
+      })
     } catch (error: any) {
       console.error("Error adding skill:", error)
       toast({
@@ -177,41 +147,20 @@ export function SkillsSection({ user }: SkillsSectionProps) {
 
   const handleDeleteSkill = async (skillId: string) => {
     try {
-      // Create absolute URL for the API endpoint
-      const apiUrl = new URL(`/api/skills?id=${skillId}`, window.location.origin).href
-      console.log("Deleting skill with ID:", skillId)
-      console.log("Delete API URL:", apiUrl)
-      
-      // Use the API endpoint to delete the skill with credentials included
-      const response = await fetch(apiUrl, {
-        method: 'DELETE',
-        credentials: 'include'
-      })
-      
-      console.log("Delete API response status:", response.status)
-      
-      if (response.ok) {
-        const result = await response.json()
-        console.log("Delete API response:", result)
+      const { error } = await supabase
+        .from('skills')
+        .delete()
+        .eq('id', skillId)
+        .eq('user_id', user.id)
         
-        // Update local state
-        setSkills(skills.filter((skill) => skill.id !== skillId))
+      if (error) throw error
+      
+      setSkills(skills.filter((skill) => skill.id !== skillId))
 
-        toast({
-          title: "Skill deleted",
-          description: "Your skill has been deleted successfully.",
-        })
-      } else {
-        // Handle HTTP error status
-        let errorMessage = "Failed to delete skill";
-        try {
-          const errorData = await response.json();
-          errorMessage = errorData.error || errorMessage;
-        } catch (e) {
-          // If JSON parsing fails, use default error message
-        }
-        throw new Error(errorMessage);
-      }
+      toast({
+        title: "Skill deleted",
+        description: "Your skill has been deleted successfully.",
+      })
     } catch (error: any) {
       console.error("Error deleting skill:", error)
       toast({
