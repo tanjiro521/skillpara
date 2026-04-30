@@ -64,6 +64,7 @@ export function ProfileSection({ user, onProfileUpdate }: ProfileSectionProps) {
         .from("profiles")
         .upsert({
           id: user.id,
+          email: formData.email,
           name: formData.name,
           phone: formData.phone,
           location: formData.location,
