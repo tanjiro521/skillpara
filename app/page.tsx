@@ -70,27 +70,42 @@ export default function Home() {
           <CategorySection />
         </div>
 
-        {/* 3 Ways to Learn Section */}
-        <div className="py-16 bg-gradient-to-b from-transparent to-purple-50/30 dark:to-purple-900/10">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-maroon to-olive dark:from-maroon dark:to-olive bg-clip-text text-transparent">
-              3 Ways to Learn & Connect
+        {/* The SkillPara Ecosystem Flow */}
+        <div className="py-20 bg-gradient-to-r from-maroon to-olive dark:from-purple-900 dark:to-blue-900 relative overflow-hidden">
+          {/* Animated particles background */}
+          <div className="absolute inset-0 bg-[url('/particles-light.svg')] dark:bg-[url('/particles-dark.svg')] opacity-20 bg-repeat"></div>
+          
+          <div className="container max-w-7xl mx-auto px-4 relative z-10">
+            <h2 className="text-4xl font-extrabold text-center text-white mb-12">
+              The SkillPara Ecosystem
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700 text-center transition-transform hover:-translate-y-2">
-                <div className="w-16 h-16 mx-auto bg-purple-100 dark:bg-purple-900/50 rounded-full flex items-center justify-center mb-6 text-3xl">🔄</div>
-                <h3 className="text-xl font-bold mb-3">Skill Swap</h3>
-                <p className="text-gray-600 dark:text-gray-300">Teach what you know in exchange for learning what you don't. Zero money involved.</p>
+            <div className="grid md:grid-cols-3 gap-8 text-center">
+              
+              {/* Pillar 1: The Swap */}
+              <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-xl flex flex-col items-center hover:-translate-y-2 transition-transform duration-300">
+                <div className="bg-emerald-500/20 p-4 rounded-full mb-6">
+                  <svg className="w-12 h-12 text-emerald-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                </div>
+                <h3 className="text-2xl font-bold text-emerald-300 mb-4">Hyper-Local Skill Swap</h3>
+                <p className="text-slate-200">You teach coding, someone in your neighborhood fixes your car. Zero cash, pure community exchange.</p>
               </div>
-              <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700 text-center transition-transform hover:-translate-y-2">
-                <div className="w-16 h-16 mx-auto bg-orange-100 dark:bg-orange-900/50 rounded-full flex items-center justify-center mb-6 text-3xl">🪙</div>
-                <h3 className="text-xl font-bold mb-3">Tokens</h3>
-                <p className="text-gray-600 dark:text-gray-300">Earn tokens by teaching others, then spend them to book premium sessions.</p>
+
+              {/* Pillar 2: The Token Economy */}
+              <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-xl flex flex-col items-center scale-105 transform hover:scale-110 transition-transform duration-300">
+                <div className="bg-amber-500/20 p-4 rounded-full mb-6">
+                  <svg className="w-12 h-12 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <h3 className="text-2xl font-bold text-amber-300 mb-4">SkillTokens</h3>
+                <p className="text-slate-200">The medium of exchange. Earn tokens when you provide a service; spend them to unlock others. Your skill is your currency.</p>
               </div>
-              <div className="p-8 rounded-2xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700 text-center transition-transform hover:-translate-y-2">
-                <div className="w-16 h-16 mx-auto bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center mb-6 text-3xl">₹</div>
-                <h3 className="text-xl font-bold mb-3">Direct Pay</h3>
-                <p className="text-gray-600 dark:text-gray-300">Need an expert right now? Hire verified local professionals instantly.</p>
+
+              {/* Pillar 3: Trust & Verification */}
+              <div className="bg-white/10 backdrop-blur-md p-8 rounded-2xl border border-white/20 shadow-xl flex flex-col items-center hover:-translate-y-2 transition-transform duration-300">
+                <div className="bg-sky-500/20 p-4 rounded-full mb-6">
+                  <svg className="w-12 h-12 text-sky-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                </div>
+                <h3 className="text-2xl font-bold text-sky-300 mb-4">Built-in Trust</h3>
+                <p className="text-slate-200">Mandatory verification and public 'Trust Scores' based on actual service completion. Safe community exchanges.</p>
               </div>
             </div>
           </div>
