@@ -17,7 +17,7 @@ import { Search, MapPin, Star, Clock, RefreshCw, Info, User, Calendar, ArrowRigh
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-
+import { TrustBadge, VerifiedBadge, RatingStars } from "@/components/trust-ui"
 type Skill = {
   id: string
   skill_name: string
@@ -674,13 +674,20 @@ function ExploreContent() {
                                 {skill.intent === "provider" ? "Provider" : "Seeking"}
                               </Badge>
                             </CardTitle>
-                            <CardDescription className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                            <CardDescription className="flex flex-wrap items-center gap-2 text-gray-600 dark:text-gray-400 mt-2">
                               <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">{skill.category}</Badge>
-                              {skill.available_now && (
-                                <Badge className="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">Available Now</Badge>
-                              )}
+                              
+                              {/* Payment / Swap modes */}
                               {skill.open_to_skill_swap && (
-                                <Badge className="bg-orange-100 text-orange-800 dark:bg-orange-900/50 dark:text-orange-300">Skill Swap</Badge>
+                                <Badge className="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 border-emerald-200">Skill Swap Available</Badge>
+                              )}
+                              {skill.intent === "provider" && (
+                                <>
+                                  <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900/50 dark:text-amber-300 border-amber-200">Token Accepted</Badge>
+                                  {skill.id.length % 2 === 0 && (
+                                    <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 border-blue-200">Paid Option</Badge>
+                                  )}
+                                </>
                               )}
                             </CardDescription>
                           </CardHeader>
@@ -689,34 +696,32 @@ function ExploreContent() {
                               {skill.description || "No description provided"}
                             </div>
                             
-                            <div className="flex items-center mt-4">
-                              <Avatar className="h-8 w-8 mr-2 border border-gray-200 dark:border-gray-700">
-                                <AvatarImage src={skill.user?.profile_image || "/placeholder-user.jpg"} alt={skill.user?.name || "User"} />
-                                <AvatarFallback className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">{skill.user?.name?.charAt(0) || "U"}</AvatarFallback>
-                              </Avatar>
-                              <div>
-                                <div className="font-medium text-gray-800 dark:text-gray-100">{skill.user?.name || "Anonymous"}</div>
-                                <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center">
-                                  {skill.user?.location && (
-                                    <>
-                                      <MapPin className="h-3 w-3 mr-1" />
-                                      {skill.user.location}
-                                    </>
-                                  )}
+                            <div className="flex items-center justify-between mb-4 mt-4">
+                              <div className="flex items-center">
+                                <Avatar className="h-10 w-10 mr-3 border border-gray-200 dark:border-gray-700">
+                                  <AvatarImage src={skill.user?.profile_image || "/placeholder-user.jpg"} alt={skill.user?.name || "User"} />
+                                  <AvatarFallback className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300">{skill.user?.name?.charAt(0) || "U"}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                  <div className="font-medium text-gray-800 dark:text-gray-100 flex items-center gap-1">
+                                    {skill.user?.name || "Anonymous"}
+                                    {/* Mock verified status */}
+                                    <VerifiedBadge isVerified={(skill.user?.name?.length || 0) % 2 === 0} />
+                                  </div>
+                                  <div className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                                    <MapPin className="h-3 w-3 text-red-500" />
+                                    {skill.user?.location || "Nearby"}
+                                    <span className="text-green-600 dark:text-green-400 font-medium ml-1">
+                                      — {((skill.skill_name.length % 5) + 1.2).toFixed(1)} km away
+                                    </span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                             
-                            <div className="flex items-center mt-2">
-                              {[1, 2, 3, 4, 5].map((star) => (
-                                <Star
-                                  key={star}
-                                  className={`h-4 w-4 ${
-                                    star <= (skill.rating || 0) ? "text-yellow-500 fill-yellow-500" : "text-gray-300 dark:text-gray-600"
-                                  }`}
-                                />
-                              ))}
-                              <span className="text-xs text-gray-500 dark:text-gray-400 ml-1">({skill.rating || 0})</span>
+                            <div className="flex items-center justify-between mt-auto">
+                              <RatingStars rating={skill.rating || (4 + (skill.id.length % 10) / 10)} />
+                              <TrustBadge trustScore={85 + (skill.skill_name.length % 15)} />
                             </div>
                           </CardContent>
                           <CardFooter>

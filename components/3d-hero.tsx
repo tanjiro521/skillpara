@@ -149,7 +149,7 @@ export function Hero3D() {
             animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             >
-            Exchange Skills. Earn Tokens. Learn Locally.
+            Learn, Teach, or Hire Locally — Without Always Paying
             </motion.h1>
           <motion.p 
             className="text-lg md:text-xl mb-8 text-foreground/80"
@@ -157,7 +157,7 @@ export function Hero3D() {
             animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Master new abilities through 1-on-1 skill swapping, earn tokens by teaching, or hire local professionals directly.
+            Swap skills, use tokens, or pay when needed. SkillPara connects you with real people in your locality.
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row justify-center gap-4"

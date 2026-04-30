@@ -10,6 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { Star, ArrowRight, MapPin, ChevronLeft, ChevronRight } from "lucide-react"
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 
+import { TrustBadge, VerifiedBadge, RatingStars } from "@/components/trust-ui"
+
 interface Provider {
   id: string
   name: string
@@ -149,46 +151,7 @@ export function FeaturedProviders() {
     },
   }
 
-  // Calculate the rating with decimals
-  const renderRating = (rating: number, reviewCount: number) => {
-    const fullStars = Math.floor(rating);
-    const decimalPart = rating - fullStars;
-    
-    return (
-      <div className="flex items-center">
-        {[...Array(5)].map((_, i) => {
-          if (i < fullStars) {
-            return (
-              <Star 
-                key={i} 
-                className="h-4 w-4 text-yellow-500 fill-yellow-500" 
-              />
-            )
-          } else if (i === fullStars && decimalPart > 0) {
-            // Show partial filled star
-            return (
-              <div key={i} className="relative h-4 w-4">
-                <Star className="absolute h-4 w-4 text-gray-300 dark:text-gray-600" />
-                <div className="absolute overflow-hidden h-4" style={{ width: `${decimalPart * 100}%` }}>
-                  <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
-                </div>
-              </div>
-            )
-          } else {
-            return (
-              <Star 
-                key={i} 
-                className="h-4 w-4 text-gray-300 dark:text-gray-600" 
-              />
-            )
-          }
-        })}
-        <span className="text-xs font-medium text-gray-500 dark:text-gray-400 ml-1">
-          {rating.toFixed(1)} ({reviewCount})
-        </span>
-      </div>
-    )
-  }
+  // We will use RatingStars component from trust-ui instead of this function
 
   return (
     <section className="py-20 bg-white dark:bg-gray-900 transition-colors duration-300 relative overflow-hidden">
@@ -274,14 +237,11 @@ export function FeaturedProviders() {
                       <div className="pt-16 px-5 pb-5 flex-grow flex flex-col">
                         <h3 className="text-xl font-semibold text-center mb-1.5 text-gray-800 dark:text-gray-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors flex items-center justify-center gap-1">
                           {provider.name}
-                          {provider.verified && (
-                            <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                          )}
+                          <VerifiedBadge isVerified={!!provider.verified} />
                         </h3>
                         <div className="flex items-center justify-center mb-3">
-                          {renderRating(provider.rating, provider.reviewCount)}
+                          <RatingStars rating={provider.rating} />
+                          <span className="text-xs text-gray-500 ml-1">({provider.reviewCount})</span>
                         </div>
                         <div className="flex flex-col items-center justify-center text-xs text-gray-500 dark:text-gray-400 mb-3 gap-1">
                           <div className="flex items-center">
@@ -293,9 +253,7 @@ export function FeaturedProviders() {
                         
                         {provider.trust_score && (
                           <div className="flex justify-center mb-2">
-                            <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:border-blue-800/70 dark:text-blue-300">
-                              🛡️ Trust Score: {provider.trust_score}%
-                            </Badge>
+                            <TrustBadge trustScore={provider.trust_score} />
                           </div>
                         )}
                         {provider.payment_mode && (
@@ -361,14 +319,11 @@ export function FeaturedProviders() {
                           </div>
                           <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-100 flex items-center justify-center gap-1">
                             {providers[currentSlide].name}
-                            {providers[currentSlide].verified && (
-                              <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                              </svg>
-                            )}
+                            <VerifiedBadge isVerified={!!providers[currentSlide].verified} />
                           </h3>
-                          <div className="flex items-center mb-3">
-                            {renderRating(providers[currentSlide].rating, providers[currentSlide].reviewCount)}
+                          <div className="flex items-center justify-center mb-3">
+                            <RatingStars rating={providers[currentSlide].rating} />
+                            <span className="text-xs text-gray-500 ml-1">({providers[currentSlide].reviewCount})</span>
                           </div>
                           
                           <div className="flex flex-col items-center justify-center text-sm text-gray-500 dark:text-gray-400 mb-4 gap-1">
@@ -381,9 +336,7 @@ export function FeaturedProviders() {
 
                           {providers[currentSlide].trust_score && (
                             <div className="flex justify-center mb-2">
-                              <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:border-blue-800/70 dark:text-blue-300">
-                                🛡️ Trust Score: {providers[currentSlide].trust_score}%
-                              </Badge>
+                              <TrustBadge trustScore={providers[currentSlide].trust_score} />
                             </div>
                           )}
                           {providers[currentSlide].payment_mode && (
