@@ -15,7 +15,7 @@ export function HowItWorks() {
     {
       icon: <Coins className="h-8 w-8 text-amber-500" />,
       title: "Tokens",
-      description: "Earn tokens by teaching and use them to learn",
+      description: "Earn tokens by teaching and use them to learn anything",
       bgColor: "bg-amber-50 dark:bg-amber-950/30",
       borderColor: "border-amber-100 dark:border-amber-800",
     },
@@ -84,6 +84,28 @@ export function HowItWorks() {
               <p className="text-gray-600 dark:text-gray-300">{step.description}</p>
             </motion.div>
           ))}
+        </motion.div>
+
+        {/* Real Life Flow Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          viewport={{ once: true }}
+          className="mt-20 max-w-4xl mx-auto text-center"
+        >
+          <h3 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6">How it works in real life</h3>
+          <div className="bg-purple-50 dark:bg-purple-900/20 rounded-2xl p-6 md:p-8 border border-purple-100 dark:border-purple-800/50 shadow-inner">
+            <p className="text-lg md:text-xl font-medium text-purple-900 dark:text-purple-200 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-2">
+              <span>You teach guitar</span>
+              <span className="text-purple-400 rotate-90 md:rotate-0">→</span>
+              <span>earn tokens</span>
+              <span className="text-purple-400 rotate-90 md:rotate-0">→</span>
+              <span>use them to learn coding</span>
+              <span className="text-purple-400 rotate-90 md:rotate-0">→</span>
+              <span>or book a local electrician when needed</span>
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>

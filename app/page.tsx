@@ -65,7 +65,29 @@ export default function Home() {
           <Hero3D />
         </Suspense>
         
-        {/* Enhanced Category Section */}
+        {/* Skill Exchange Intro Section */}
+        <div className="py-12 bg-gradient-to-r from-maroon/5 to-olive/5 dark:from-purple-900/20 dark:to-blue-900/20">
+          <div className="container max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+              SkillPara lets you exchange skills with others
+            </h2>
+            <p className="text-lg text-gray-600 dark:text-gray-300 mb-3">
+              No money? Teach something you know and learn something new.
+            </p>
+            <p className="text-sm font-medium text-purple-600 dark:text-purple-400">
+              No money? Swap skills. No match? Use tokens.
+            </p>
+          </div>
+        </div>
+
+        {/* Positioning Line */}
+        <div className="py-6 bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800">
+          <div className="container max-w-4xl mx-auto px-4 text-center">
+            <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+              Not a course platform. A local skill economy.
+            </p>
+          </div>
+        </div>
         <div className="my-20">
           <CategorySection />
         </div>

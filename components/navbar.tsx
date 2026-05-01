@@ -540,16 +540,16 @@ export function Navbar() {
             <div className="hidden md:flex items-center space-x-2">
               <Button
                 variant="ghost"
-                onClick={() => router.push("/dashboard")}
+                onClick={() => router.push("/login")}
                 className="text-gray-700 dark:text-gray-200 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
               >
-                Enter App
+                Login
               </Button>
               <Button
-                onClick={() => router.push("/dashboard")}
+                onClick={() => router.push("/signup")}
                 className="bg-gradient-to-r from-maroon to-olive hover:from-maroon hover:to-olive dark:from-maroon dark:to-olive dark:hover:from-maroon dark:hover:to-olive text-white shadow-md hover:shadow-lg transition-all"
               >
-                Open Dashboard
+                Sign Up
               </Button>
             </div>
           )}

@@ -504,7 +504,12 @@ function ExploreContent() {
       <main className="flex-grow">
         <section className="bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900/20 dark:to-blue-900/30 py-12 transition-colors duration-300">
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl font-bold mb-6 text-center text-gray-800 dark:text-gray-100">Explore Skills</h1>
+            <h1 className="text-3xl font-bold mb-2 text-center text-gray-800 dark:text-gray-100">Explore Skills</h1>
+            <p className="text-center text-gray-600 dark:text-gray-300 mb-6 font-medium flex flex-wrap justify-center gap-2 md:gap-4 text-sm md:text-base">
+              <span className="bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full">🔄 No money? Swap skills</span>
+              <span className="bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full">🪙 Earn tokens by teaching</span>
+              <span className="bg-white/50 dark:bg-gray-800/50 px-3 py-1 rounded-full">📍 Connect locally</span>
+            </p>
             <form onSubmit={handleSearch} className="max-w-4xl mx-auto">
               <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <div className="flex-1 relative">
@@ -578,6 +583,52 @@ function ExploreContent() {
                         <SelectItem value="seeker">Skills People Want to Learn</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
+
+                  {/* Mode Filter - Swap / Token / Paid */}
+                  <div>
+                    <Label className="mb-2 block text-gray-700 dark:text-gray-300">Mode</Label>
+                    <div className="flex flex-wrap gap-2">
+                      <Button
+                        type="button"
+                        variant={intentFilter === "all" ? "default" : "outline"}
+                        size="sm"
+                        className={intentFilter === "all" ? "bg-gradient-to-r from-maroon to-olive" : ""}
+                        onClick={() => setIntentFilter("all")}
+                      >
+                        All
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={skillSwap ? "default" : "outline"}
+                        size="sm"
+                        className={skillSwap ? "bg-emerald-500 hover:bg-emerald-600" : "border-gray-200 dark:border-gray-700"}
+                        onClick={() => setSkillSwap(!skillSwap)}
+                      >
+                        🔄 Swap
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={intentFilter === "provider" && !skillSwap ? "default" : "outline"}
+                        size="sm"
+                        className={intentFilter === "provider" && !skillSwap ? "bg-amber-500 hover:bg-amber-600" : "border-gray-200 dark:border-gray-700"}
+                        onClick={() => {
+                          setSkillSwap(false)
+                          setIntentFilter(intentFilter === "provider" && !skillSwap ? "all" : "provider")
+                        }}
+                      >
+                        🪙 Tokens
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={intentFilter === "provider" ? "default" : "outline"}
+                        size="sm"
+                        className={intentFilter === "provider" ? "bg-blue-500 hover:bg-blue-600" : "border-gray-200 dark:border-gray-700"}
+                        onClick={() => setIntentFilter(intentFilter === "provider" ? "all" : "provider")}
+                      >
+                        💰 Paid
+                      </Button>
+                    </div>
                   </div>
 
                   <div>
@@ -729,7 +780,7 @@ function ExploreContent() {
                               className="w-full bg-gradient-to-r from-maroon to-olive hover:from-purple-700 hover:to-blue-700 dark:from-maroon dark:to-olive dark:hover:from-purple-600 dark:hover:to-blue-600 text-white"
                               onClick={() => handleViewProfile(skill.user_id)}
                             >
-                              View Profile <ArrowRight className="ml-2 h-4 w-4" />
+                              Book Session <ArrowRight className="ml-2 h-4 w-4" />
                             </Button>
                           </CardFooter>
                         </Card>

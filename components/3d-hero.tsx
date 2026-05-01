@@ -140,24 +140,33 @@ export function Hero3D() {
         />
       </Canvas>
       
-      {/* Text overlay */}
+      {/* Text overlay with backdrop for visibility */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center z-10 max-w-3xl px-6">
+          <div className="relative z-10 bg-black/40 backdrop-blur-sm p-6 md:p-8 rounded-xl border border-white/10 shadow-2xl">
             <motion.h1 
-            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent"
+            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             >
-            Learn, Teach, or Hire Locally — Without Always Paying
+            Exchange Skills. Not Just Money.
             </motion.h1>
           <motion.p 
-            className="text-lg md:text-xl mb-8 text-foreground/80"
+            className="text-xl md:text-2xl mb-4 font-medium text-white/90 drop-shadow-md"
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            Learn, teach, or hire locally using skill swaps, tokens, or direct booking.
+          </motion.p>
+          <motion.p 
+            className="text-md md:text-lg mb-8 text-white/80 drop-shadow-sm"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            Swap skills, use tokens, or pay when needed. SkillPara connects you with real people in your locality.
+            No money? Swap. No match? Use tokens. Need urgent help? Pay.
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row justify-center gap-4"
@@ -172,7 +181,7 @@ export function Hero3D() {
               Explore Skills
             </button>
             <button 
-              className="px-8 py-3 rounded-full border-2 border-purple-600 text-foreground font-semibold hover:bg-purple-50 dark:hover:bg-gray-800 transform hover:scale-105 transition-all"
+              className="px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-white/10 transform hover:scale-105 transition-all"
               onClick={scrollToHowItWorks}
             >
               Start Teaching
