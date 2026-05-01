@@ -257,11 +257,10 @@ export function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full backdrop-blur-md transition-all duration-300 ${
-        isScrolled
+      className={`sticky top-0 z-50 w-full backdrop-blur-md transition-all duration-300 ${isScrolled
           ? "bg-white/90 dark:bg-gray-900/90 shadow-md dark:shadow-gray-800/30"
           : "bg-transparent"
-      }`}
+        }`}
     >
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2 group">
@@ -270,11 +269,11 @@ export function Navbar() {
             transition={{ duration: 0.5 }}
             className="relative w-16 h-16"
           >
-            <Image 
-              src="/logo.png" 
-              alt="skillpara Logo" 
-              fill 
-              className="object-contain" 
+            <Image
+              src="/logo.png"
+              alt="skillpara Logo"
+              fill
+              className="object-contain"
               priority
               sizes="64px"
             />
@@ -289,47 +288,41 @@ export function Navbar() {
         <nav className="hidden md:flex items-center space-x-8">
           <Link
             href="/"
-            className={`text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 relative group ${
-              pathname === "/"
+            className={`text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 relative group ${pathname === "/"
                 ? "text-purple-600 dark:text-purple-400"
                 : "text-gray-800 dark:text-gray-200"
-            }`}
+              }`}
           >
             Home
             <span
-              className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 dark:bg-purple-400 transition-all duration-300 group-hover:w-full ${
-                pathname === "/" ? "w-full" : ""
-              }`}
+              className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 dark:bg-purple-400 transition-all duration-300 group-hover:w-full ${pathname === "/" ? "w-full" : ""
+                }`}
             ></span>
           </Link>
           <Link
             href="/explore"
-            className={`text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 relative group ${
-              pathname === "/explore"
+            className={`text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 relative group ${pathname === "/explore"
                 ? "text-purple-600 dark:text-purple-400"
                 : "text-gray-800 dark:text-gray-200"
-            }`}
+              }`}
           >
             Explore
             <span
-              className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 dark:bg-purple-400 transition-all duration-300 group-hover:w-full ${
-                pathname === "/explore" ? "w-full" : ""
-              }`}
+              className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 dark:bg-purple-400 transition-all duration-300 group-hover:w-full ${pathname === "/explore" ? "w-full" : ""
+                }`}
             ></span>
           </Link>
           <Link
             href="/#how-it-works"
-            className={`text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 relative group ${
-              pathname === "/how-it-works"
+            className={`text-sm font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 relative group ${pathname === "/how-it-works"
                 ? "text-purple-600 dark:text-purple-400"
                 : "text-gray-800 dark:text-gray-200"
-            }`}
+              }`}
           >
             How It Works
             <span
-              className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 dark:bg-purple-400 transition-all duration-300 group-hover:w-full ${
-                pathname === "/how-it-works" ? "w-full" : ""
-              }`}
+              className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-purple-600 dark:bg-purple-400 transition-all duration-300 group-hover:w-full ${pathname === "/how-it-works" ? "w-full" : ""
+                }`}
             ></span>
           </Link>
           <div className="ml-2">
@@ -588,31 +581,28 @@ export function Navbar() {
                 <div className="space-y-6 py-4">
                   <Link
                     href="/"
-                    className={`block py-2 text-base font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 ${
-                      pathname === "/"
+                    className={`block py-2 text-base font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 ${pathname === "/"
                         ? "text-purple-600 dark:text-purple-400"
                         : "text-gray-700 dark:text-gray-200"
-                    }`}
+                      }`}
                   >
                     Home
                   </Link>
                   <Link
                     href="/explore"
-                    className={`block py-2 text-base font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 ${
-                      pathname === "/explore"
+                    className={`block py-2 text-base font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 ${pathname === "/explore"
                         ? "text-purple-600 dark:text-purple-400"
                         : "text-gray-700 dark:text-gray-200"
-                    }`}
+                      }`}
                   >
                     Explore
                   </Link>
                   <Link
                     href="/#how-it-works"
-                    className={`block py-2 text-base font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 ${
-                      pathname === "/how-it-works"
+                    className={`block py-2 text-base font-medium transition-colors hover:text-purple-600 dark:hover:text-purple-400 ${pathname === "/how-it-works"
                         ? "text-purple-600 dark:text-purple-400"
                         : "text-gray-700 dark:text-gray-200"
-                    }`}
+                      }`}
                   >
                     How It Works
                   </Link>
@@ -700,19 +690,12 @@ export function Navbar() {
                       </Button>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-2 gap-2">
-                      <Button
-                        variant="outline"
-                        onClick={() => router.push("/dashboard")}
-                        className="w-full text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800"
-                      >
-                        Enter App
-                      </Button>
+                    <div className="grid grid-cols-1 gap-2">
                       <Button
                         onClick={() => router.push("/dashboard")}
                         className="w-full bg-gradient-to-r from-maroon to-olive hover:from-maroon hover:to-olive dark:from-maroon dark:to-olive dark:hover:from-maroon dark:hover:to-olive text-white shadow-md hover:shadow-lg transition-all"
                       >
-                        Dashboard
+                        Enter App
                       </Button>
                     </div>
                   )}
