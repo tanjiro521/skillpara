@@ -12,18 +12,18 @@ import { useRouter } from 'next/navigation'
 // Scene initialization component to ensure proper context
 function SceneInitializer() {
   const { scene, gl } = useThree()
-  
+
   useEffect(() => {
     if (scene) {
       scene.fog = new THREE.Fog('#000000', 5, 15)
       gl.setClearColor('#000000', 0)
-      
+
       return () => {
         scene.fog = null
       }
     }
   }, [scene, gl])
-  
+
   return null
 }
 
@@ -31,7 +31,7 @@ function SceneInitializer() {
 function Particles({ count = 50 }) {
   const { theme } = useTheme()
   const [isReady, setIsReady] = useState(false)
-  
+
   // Create particles array immediately and store in state to maintain stability
   const particles = React.useMemo(() => {
     return Array.from({ length: count || 0 }, () => ({
@@ -50,15 +50,15 @@ function Particles({ count = 50 }) {
   }, [])
 
   if (!isReady || !particles) return null
-  
+
   return (
     <>
       {particles.map((particle, i) => (
         <Float key={i} speed={2} rotationIntensity={0.5} floatIntensity={2}>
           <mesh position={particle.position as [number, number, number]}>
             <sphereGeometry args={[particle.size as number, 16, 16]} />
-            <meshStandardMaterial 
-              color={theme === "dark" ? "#6d28d9" : "#8b5cf6"} 
+            <meshStandardMaterial
+              color={theme === "dark" ? "#6d28d9" : "#8b5cf6"}
               emissive={theme === "dark" ? "#6d28d9" : "#8b5cf6"}
               emissiveIntensity={0.5}
               transparent
@@ -75,7 +75,7 @@ function Particles({ count = 50 }) {
 function TorusKnot() {
   const meshRef = useRef<THREE.Mesh>(null)
   const { theme } = useTheme()
-  
+
   useFrame((state) => {
     if (meshRef.current) {
       meshRef.current.rotation.x += 0.01
@@ -87,9 +87,9 @@ function TorusKnot() {
     <Float speed={2} rotationIntensity={0.5} floatIntensity={2}>
       <mesh ref={meshRef} position={[0, 0, 0]}>
         <torusKnotGeometry args={[1, 0.3, 128, 32]} />
-        <meshStandardMaterial 
-          color={theme === "dark" ? "#8b5cf6" : "#6d28d9"} 
-          roughness={0.5} 
+        <meshStandardMaterial
+          color={theme === "dark" ? "#8b5cf6" : "#6d28d9"}
+          roughness={0.5}
           metalness={0.8}
         />
       </mesh>
@@ -132,61 +132,62 @@ export function Hero3D() {
           <TorusKnot />
           <Environment preset="city" />
         </Suspense>
-        <OrbitControls 
-          enableZoom={false} 
+        <OrbitControls
+          enableZoom={false}
           enablePan={false}
           autoRotate
           autoRotateSpeed={0.5}
         />
       </Canvas>
-      
+
       {/* Text overlay with backdrop for visibility */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center z-10 max-w-3xl px-6">
           <div className="relative z-10 bg-black/40 backdrop-blur-sm p-6 md:p-8 rounded-xl border border-white/10 shadow-2xl">
-            <motion.h1 
-            className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+            <motion.h1
+              className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-yellow-400 to-red-500 bg-clip-text text-transparent drop-shadow-lg"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
             >
-            Exchange Skills. Not Just Money.
+              Exchange Skills. Not Just Money.
             </motion.h1>
-          <motion.p 
-            className="text-xl md:text-2xl mb-4 font-medium text-white/90 drop-shadow-md"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Learn, teach, or hire locally using skill swaps, tokens, or direct booking.
-          </motion.p>
-          <motion.p 
-            className="text-md md:text-lg mb-8 text-white/80 drop-shadow-sm"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            No money? Swap. No match? Use tokens. Need urgent help? Pay.
-          </motion.p>
-          <motion.div
-            className="flex flex-col sm:flex-row justify-center gap-4"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
-          >
-            <button 
-              className="px-8 py-3 rounded-full bg-gradient-to-r from-maroon to-olive text-white font-semibold hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all shadow-lg"
-              onClick={() => router.push('/explore')}
+            <motion.p
+              className="text-xl md:text-2xl mb-4 font-medium text-white/90 drop-shadow-md"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              Explore Skills
-            </button>
-            <button 
-              className="px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-white/10 transform hover:scale-105 transition-all"
-              onClick={scrollToHowItWorks}
+              Learn, teach, or hire locally using skill swaps, tokens, or direct booking.
+            </motion.p>
+            <motion.p
+              className="text-md md:text-lg mb-8 text-white/80 drop-shadow-sm"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
             >
-              Start Teaching
-            </button>
-          </motion.div>
+              No money? Swap. No match? Use tokens. Need urgent help? Pay.
+            </motion.p>
+            <motion.div
+              className="flex flex-col sm:flex-row justify-center gap-4"
+              initial={{ y: 50, opacity: 0 }}
+              animate={{ y: 0, opacity: isLoaded ? 1 : 0 }}
+              transition={{ duration: 0.8, delay: 0.7 }}
+            >
+              <button
+                className="px-8 py-3 rounded-full bg-gradient-to-r from-maroon to-olive text-white font-semibold hover:from-purple-700 hover:to-blue-700 transform hover:scale-105 transition-all shadow-lg"
+                onClick={() => router.push('/explore')}
+              >
+                Explore Skills
+              </button>
+              <button
+                className="px-8 py-3 rounded-full border-2 border-white text-white font-semibold hover:bg-white/10 transform hover:scale-105 transition-all"
+                onClick={scrollToHowItWorks}
+              >
+                Start Teaching
+              </button>
+            </motion.div>
+          </div>
         </div>
       </div>
     </motion.div>
